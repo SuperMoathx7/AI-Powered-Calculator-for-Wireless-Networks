@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wireless Networks Calculator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-satellite"></i>
+            </div>
+            <h1>Online Calculator for Wireless and Mobile Networks</h1>
+            <p class="subtitle">Advanced tools for designing, analyzing and optimizing modern wireless communication systems and mobile networks</p>
+        </header>
+        
+        <div class="nav-tabs">
+            <button class="tab-btn active" data-tab="wireless">
+                <i class="fas fa-wifi"></i>
+                Wireless System
+            </button>
+            <button class="tab-btn" data-tab="ofdm">
+                <i class="fas fa-broadcast-tower"></i>
+                OFDM Systems
+            </button>
+            <button class="tab-btn" data-tab="link">
+                <i class="fas fa-signal"></i>
+                Link Budget
+            </button>
+            <button class="tab-btn" data-tab="cellular">
+                <i class="fas fa-tower-cell"></i>
+                Cellular Design
+            </button>
+        </div>
+
+        <!-- Wireless System Section -->
+        <section id="wireless" class="calculator-section active">
+            <div class="section-header">
+                <i class="fas fa-wifi"></i>
+                <h2>Wireless Communication System</h2>
+            </div>
+            <div class="calculator-form">
+                <div class="input-group"><label for="bandwidth">Bandwidth (Hz)</label><input type="number" id="bandwidth" value="2400"></div>
+                <div class="input-group"><label for="cutoff-frequency">Cutoff Frequency (Hz)</label><input type="number" id="cutoff-frequency" value="2000"></div>
+                <div class="input-group"><label for="bit-quantizer"># of Bit Quantizer</label><input type="number" id="bit-quantizer" value="2"></div>
+                <div class="input-group"><label for="rs-compression">Compression Rate (Rs)</label><input type="number" id="rs-compression" value="0.25"></div>
+                <div class="input-group"><label for="rc-encoding">Channel Encoder Rate (Rc)</label><input type="number" id="rc-encoding" value="0.75"></div>
+                <div class="input-group"><label for="overhead-bits"># of Overhead bits</label><input type="number" id="overhead-bits" value="2"></div>
+                <div class="input-group"><label for="distance">Distance (km)</label><input type="number" id="distance" value="5"></div>
+                <button class="calculate-btn">Calculate System Performance</button>
+            </div>
+            <div class="result-container">
+                <h3>System Performance</h3>
+                <div class="result-value">Data Rate: 48 Mbps | Max Range: 8.2 km</div>
+            </div>
+        </section>
+
+        <!-- OFDM Systems Section -->
+        <section id="ofdm" class="calculator-section">
+            <div class="section-header">
+                <i class="fas fa-broadcast-tower"></i>
+                <h2>OFDM System Calculator</h2>
+            </div>
+            <div class="calculator-form">
+                <div class="input-group"><label for="subcarriers">Number of Subcarriers</label><input type="number" id="subcarriers" value="64"></div>
+                <div class="input-group"><label for="cyclic-prefix">Cyclic Prefix Ratio</label><input type="number" id="cyclic-prefix" value="0.25" step="0.01"></div>
+                <div class="input-group"><label for="symbol-rate">Symbol Rate (kSymbols/sec)</label><input type="number" id="symbol-rate" value="250"></div>
+                <div class="input-group"><label for="ofdm-modulation">Modulation per Subcarrier</label>
+                    <select id="ofdm-modulation">
+                        <option>BPSK</option>
+                        <option>QPSK</option>
+                        <option>16-QAM</option>
+                        <option>64-QAM</option>
+                    </select>
+                </div>
+                <div class="input-group"><label for="guard-interval">Guard Interval (μs)</label><input type="number" id="guard-interval" value="0.8"></div>
+                <button class="calculate-btn">Calculate OFDM Parameters</button>
+            </div>
+            <div class="result-container">
+                <h3>OFDM System Results</h3>
+                <div class="result-value">Data Rate: 72 Mbps | Efficiency: 4.5 bps/Hz</div>
+            </div>
+        </section>
+
+        <!-- Link Budget Section -->
+        <section id="link" class="calculator-section">
+            <div class="section-header">
+                <i class="fas fa-signal"></i>
+                <h2>Link Budget Calculation</h2>
+            </div>
+            <div class="calculator-form">
+                <div class="input-group"><label for="tx-power-link">Transmit Power (dBm)</label><input type="number" id="tx-power-link" value="30"></div>
+                <div class="input-group"><label for="tx-antenna">TX Antenna Gain (dBi)</label><input type="number" id="tx-antenna" value="5"></div>
+                <div class="input-group"><label for="rx-antenna">RX Antenna Gain (dBi)</label><input type="number" id="rx-antenna" value="3"></div>
+                <div class="input-group"><label for="path-loss">Path Loss (dB)</label><input type="number" id="path-loss" value="110"></div>
+                <div class="input-group"><label for="fading-margin">Fading Margin (dB)</label><input type="number" id="fading-margin" value="10"></div>
+                <div class="input-group"><label for="rx-sensitivity-link">RX Sensitivity (dBm)</label><input type="number" id="rx-sensitivity-link" value="-85"></div>
+                <button class="calculate-btn">Calculate Link Budget</button>
+            </div>
+            <div class="result-container">
+                <h3>Link Budget Analysis</h3>
+                <div class="result-value">Link Margin: 18 dB | Max Path Loss: 128 dB</div>
+            </div>
+        </section>
+
+        <!-- Cellular Design Section -->
+        <section id="cellular" class="calculator-section">
+            <div class="section-header">
+                <i class="fas fa-tower-cell"></i>
+                <h2>Cellular System Design</h2>
+            </div>
+            <div class="calculator-form">
+                <div class="input-group"><label for="subscribers">Subscribers per Cell</label><input type="number" id="subscribers" value="500"></div>
+                <div class="input-group"><label for="traffic">Traffic per User (Erlang)</label><input type="number" id="traffic" value="0.02" step="0.01"></div>
+                <div class="input-group"><label for="cell-radius">Cell Radius (km)</label><input type="number" id="cell-radius" value="1.5"></div>
+                <div class="input-group"><label for="frequency-reuse">Frequency Reuse Factor</label><input type="number" id="frequency-reuse" value="7"></div>
+                <div class="input-group"><label for="channels">Available Channels</label><input type="number" id="channels" value="56"></div>
+                <button class="calculate-btn">Design Cellular System</button>
+            </div>
+            <div class="result-container">
+                <h3>Cellular System Analysis</h3>
+                <div class="result-value">Capacity: 980 Erlang | Coverage Area: 7.07 km²</div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Wireless Networks Calculator &copy; 2023 | Moath AbdAlbaqi & Amr Zeidan</p>
+        </footer>
+    </div>
+    <script src="all.js"></script>
+    <script src="first.js"></script>
+    <script src="second.js"></script>
+    <script src="third.js"></script>
+    <script src="fourth.js"></script>
+</body>
+</html>
