@@ -297,7 +297,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### Getting Help
 
-- 📧 **Email**: [amrzedan2003@gmail.com](mailto:amrzedan2003@gmail.com)
+- 📧 **Email**: [zezoamer2018@gmail.com](mailto:zezoamer2018@gmail.com)
 - 💬 **GitHub Issues**: [Create an issue](https://github.com/SuperMoathx7/Wireless/issues)
 - 📱 **LinkedIn**: Connect with the development team
 
