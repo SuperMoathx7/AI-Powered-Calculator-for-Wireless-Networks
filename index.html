@@ -1,137 +1,689 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wireless Networks Calculator</title>
+    <title>AI-Powered Calculator for Wireless Networks</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        'purple-light': '#e9d5ff',
+                        'purple-soft': '#c4b5fd',
+                        'purple-medium': '#a78bfa',
+                        'purple-deep': '#8b5cf6',
+                        'purple-dark': '#7c3aed'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="assets/style.css">
 </head>
-<body>
-    <div class="container">
-        <header>
-            <div class="logo">
-                <i class="fas fa-satellite"></i>
+
+<body class="min-h-screen bg-gradient-to-br from-purple-100 via-purple-50 to-white relative overflow-x-hidden">
+    <!-- Floating background elements -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div
+            class="absolute top-10 left-10 w-32 h-32 bg-gradient-to-br from-purple-light to-purple-soft rounded-full opacity-20 floating">
+        </div>
+        <div class="absolute top-1/3 right-20 w-24 h-24 bg-gradient-to-br from-purple-medium to-purple-deep rounded-full opacity-15 floating"
+            style="animation-delay: -2s;"></div>
+        <div class="absolute bottom-20 left-1/4 w-20 h-20 bg-gradient-to-br from-purple-soft to-purple-medium rounded-full opacity-25 floating"
+            style="animation-delay: -4s;"></div>
+        <div class="absolute bottom-1/3 right-10 w-16 h-16 bg-gradient-to-br from-purple-deep to-purple-dark rounded-full opacity-20 floating"
+            style="animation-delay: -1s;"></div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8 max-w-7xl relative z-10">
+        <!-- Header -->
+        <header class="text-center mt-12 mb-12 page-transition">
+            <div class="flex items-center justify-center mb-8">
+                <div class="hero-icon p-6 rounded-full shadow-2xl relative">
+                    <i
+                        class="fas fa-satellite md:text-5xl font-bold bg-gradient-to-r from-purple-deep via-purple-medium to-purple-soft bg-clip-text text-transparent gradient-text icon-bounce"></i>
+                    <div
+                        class="absolute inset-0 rounded-full bg-gradient-to-r from-purple-medium to-purple-deep opacity-50 blur-xl">
+                    </div>
+                </div>
             </div>
-            <h1>Online Calculator for Wireless and Mobile Networks</h1>
-            <p class="subtitle">Advanced tools for designing, analyzing and optimizing modern wireless communication systems and mobile networks</p>
+            <h1
+                class="text-5xl md:text-5xl font-bold font-sans bg-gradient-to-r from-purple-deep via-purple-medium to-purple-soft bg-clip-text text-transparent mb-6 gradient-text tracking-tight">
+                AI-Powered Calculator for Wireless Networks
+            </h1>
+            <p class="text-gray-600 text-xl max-w-4xl mx-auto leading-relaxed mb-8 font-medium">
+                Advanced tools for designing, analyzing and optimizing modern wireless communication systems and mobile
+                networks
+            </p>
+            <div class="flex justify-center space-x-2 mb-8">
+                <div class="w-2 h-2 bg-purple-medium rounded-full animate-pulse"></div>
+                <div class="w-2 h-2 bg-purple-deep rounded-full animate-pulse" style="animation-delay: 0.2s;"></div>
+                <div class="w-2 h-2 bg-purple-soft rounded-full animate-pulse" style="animation-delay: 0.4s;"></div>
+            </div>
         </header>
-        
-        <div class="nav-tabs">
-            <button class="tab-btn active" data-tab="wireless">
-                <i class="fas fa-wifi"></i>
+
+        <!-- Navigation Tabs -->
+        <div class="flex justify-center flex-wrap gap-4 mb-12 page-transition" style="animation-delay: 0.2s;">
+            <button
+                class="tab-btn card-hover bg-white border-2 border-purple-soft hover:border-purple-medium text-purple-deep px-8 py-4 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 active font-sans"
+                data-tab="wireless">
+                <i class="fas fa-wifi mr-3 text-lg"></i>
                 Wireless System
             </button>
-            <button class="tab-btn" data-tab="ofdm">
-                <i class="fas fa-broadcast-tower"></i>
+            <button
+                class="tab-btn card-hover bg-white border-2 border-purple-soft hover:border-purple-medium text-purple-deep px-8 py-4 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 font-sans"
+                data-tab="ofdm">
+                <i class="fas fa-broadcast-tower mr-3 text-lg"></i>
                 OFDM Systems
             </button>
-            <button class="tab-btn" data-tab="link">
-                <i class="fas fa-signal"></i>
+            <button
+                class="tab-btn card-hover bg-white border-2 border-purple-soft hover:border-purple-medium text-purple-deep px-8 py-4 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 font-sans"
+                data-tab="link">
+                <i class="fas fa-signal mr-3 text-lg"></i>
                 Link Budget
             </button>
-            <button class="tab-btn" data-tab="cellular">
-                <i class="fas fa-tower-cell"></i>
+            <button
+                class="tab-btn card-hover bg-white border-2 border-purple-soft hover:border-purple-medium text-purple-deep px-8 py-4 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 font-sans"
+                data-tab="cellular">
+                <i class="fas fa-tower-cell mr-3 text-lg"></i>
                 Cellular Design
             </button>
         </div>
 
         <!-- Wireless System Section -->
-        <section id="wireless" class="calculator-section active">
-            <div class="section-header">
-                <i class="fas fa-wifi"></i>
-                <h2>Wireless Communication System</h2>
+        <section id="wireless"
+            class="calculator-section glass-effect rounded-3xl shadow-purple-lg border border-purple-light p-10 mb-10 active page-transition"
+            style="animation-delay: 0.4s;">
+            <div class="flex items-center mb-8 pb-6 border-b-2 border-purple-light">
+                <div class="bg-gradient-to-r from-purple-medium to-purple-deep p-4 rounded-2xl mr-6 shadow-lg">
+                    <i class="fas fa-wifi text-white text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Wireless Communication System</h2>
+                    <p class="text-gray-600">Configure and analyze your wireless system parameters</p>
+                </div>
             </div>
-            <div class="calculator-form">                <div class="input-group"><label for="bandwidth">Bandwidth (Hz)</label><input type="number" id="bandwidth" value="2400"></div>
-                <div class="input-group"><label for="cutoff-frequency">Cutoff Frequency (Hz)</label><input type="number" id="cutoff-frequency" value="2000"></div>
-                <div class="input-group"><label for="bit-quantizer"># of Bit Quantizer</label><input type="number" id="bit-quantizer" value="2"></div>
-                <div class="input-group"><label for="rs-compression">Compression Rate (Rs)</label><input type="number" id="rs-compression" value="0.25"></div>
-                <div class="input-group"><label for="rc-encoding">Channel Encoder Rate (Rc)</label><input type="number" id="rc-encoding" value="0.75"></div>
-                <div class="input-group"><label for="overhead-bits"># of Overhead bits</label><input type="number" id="overhead-bits" value="2"></div>
-                <button class="calculate-btn">Calculate System Performance</button>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+                <div class="space-y-3">
+                    <label for="bandwidth"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Bandwidth (Hz)</label>
+                    <input type="number" id="bandwidth" value="2400"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="cutoff-frequency"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Cutoff Frequency
+                        (Hz)</label>
+                    <input type="number" id="cutoff-frequency" value="2000"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="bit-quantizer" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">#
+                        of Bit Quantizer</label>
+                    <input type="number" id="bit-quantizer" value="2"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="rs-compression"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Compression Rate
+                        (Rs)</label>
+                    <input type="number" id="rs-compression" value="0.25"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="rc-encoding"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Channel Encoder Rate
+                        (Rc)</label>
+                    <input type="number" id="rc-encoding" value="0.75"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="overhead-bits" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">#
+                        of Overhead bits</label>
+                    <input type="number" id="overhead-bits" value="2"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
             </div>
-            <div class="result-container">
-                <h3>System Performance</h3>
-                <div class="result-value">Data Rate: 48 Mbps | Max Range: 8.2 km</div>
+            <button
+                class="calculate-btn w-full bg-gradient-to-r from-purple-deep to-purple-medium text-white font-bold py-5 px-10 rounded-xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 transform text-lg">
+                <i class="fas fa-calculator mr-3"></i>
+                Calculate System Performance
+                <i class="fas fa-arrow-right ml-3"></i>
+            </button>
+            <div class="result-highlight rounded-2xl p-8 mt-8 shadow-lg">
+                <h3 class="text-xl font-bold text-purple-deep mb-4 flex items-center">
+                    <i class="fas fa-chart-line mr-3"></i>
+                    System Performance Results
+                </h3>
+                <div class="result-value text-lg text-purple-deep bg-white rounded-xl p-6">
+                    <div class="text-center py-4 text-gray-500">
+                        <i class="fas fa-calculator text-3xl mb-3"></i>
+                        <p>Click "Calculate System Performance" to see results</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Explanation Section -->
+            <div id="ai-explanation"
+                class="hidden mt-8 p-8 bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 rounded-2xl border-2 border-purple-soft shadow-lg">
+                <div class="flex items-center mb-6">
+                    <div class="bg-gradient-to-r from-purple-deep to-indigo-600 p-3 rounded-full mr-4">
+                        <i class="fas fa-robot text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-2xl font-bold text-gray-800 mb-1">AI Analysis & Explanation</h4>
+                        <p class="text-gray-600">Powered by Advanced AI Technology</p>
+                    </div>
+                </div>
+                <div id="ai-content" class="text-gray-700 leading-relaxed text-lg bg-white p-6 rounded-xl shadow-inner">
+                    <div class="flex items-center justify-center py-8">
+                        <div class="spinner mr-3"></div>
+                        <span class="text-purple-deep font-semibold">AI is analyzing your results...</span>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- OFDM Systems Section -->
-        <section id="ofdm" class="calculator-section">
-            <div class="section-header">
-                <i class="fas fa-broadcast-tower"></i>
-                <h2>OFDM System Calculator</h2>
+        <section id="ofdm"
+            class="calculator-section glass-effect rounded-3xl shadow-purple-lg border border-purple-light p-10 mb-10">
+            <div class="flex items-center mb-8 pb-6 border-b-2 border-purple-light">
+                <div class="bg-gradient-to-r from-purple-medium to-purple-deep p-4 rounded-2xl mr-6 shadow-lg">
+                    <i class="fas fa-broadcast-tower text-white text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">OFDM System Calculator</h2>
+                    <p class="text-gray-600">Optimize your OFDM system parameters and performance</p>
+                </div>
             </div>
-            <div class="calculator-form">
-                <div class="input-group"><label for="subcarriers">Number of Subcarriers</label><input type="number" id="subcarriers" value="64"></div>
-                <div class="input-group"><label for="cyclic-prefix">Cyclic Prefix Ratio</label><input type="number" id="cyclic-prefix" value="0.25" step="0.01"></div>
-                <div class="input-group"><label for="symbol-rate">Symbol Rate (kSymbols/sec)</label><input type="number" id="symbol-rate" value="250"></div>
-                <div class="input-group"><label for="ofdm-modulation">Modulation per Subcarrier</label>
-                    <select id="ofdm-modulation">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+                <div class="space-y-3">
+                    <label for="subcarriers"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Number of
+                        Subcarriers</label>
+                    <input type="number" id="subcarriers" value="64"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="cyclic-prefix"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Cyclic Prefix
+                        Ratio</label>
+                    <input type="number" id="cyclic-prefix" value="0.25" step="0.01"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="symbol-rate"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Symbol Rate
+                        (kSymbols/sec)</label>
+                    <input type="number" id="symbol-rate" value="250"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="ofdm-modulation"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Modulation per
+                        Subcarrier</label>
+                    <select id="ofdm-modulation"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
                         <option>BPSK</option>
                         <option>QPSK</option>
                         <option>16-QAM</option>
                         <option>64-QAM</option>
                     </select>
                 </div>
-                <div class="input-group"><label for="guard-interval">Guard Interval (μs)</label><input type="number" id="guard-interval" value="0.8"></div>
-                <button class="calculate-btn">Calculate OFDM Parameters</button>
+                <div class="space-y-3">
+                    <label for="guard-interval"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Guard Interval
+                        (μs)</label>
+                    <input type="number" id="guard-interval" value="0.8"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
             </div>
-            <div class="result-container">
-                <h3>OFDM System Results</h3>
-                <div class="result-value">Data Rate: 72 Mbps | Efficiency: 4.5 bps/Hz</div>
+            <button
+                class="calculate-btn w-full bg-gradient-to-r from-purple-deep to-purple-medium text-white font-bold py-5 px-10 rounded-xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 transform text-lg">
+                <i class="fas fa-calculator mr-3"></i>
+                Calculate OFDM Parameters
+                <i class="fas fa-arrow-right ml-3"></i>
+            </button>
+            <div class="result-highlight rounded-2xl p-8 mt-8 shadow-lg">
+                <h3 class="text-xl font-bold text-purple-deep mb-4 flex items-center">
+                    <i class="fas fa-chart-line mr-3"></i>
+                    OFDM Calculation Results
+                </h3>
+                <div class="result-value text-lg text-purple-deep bg-white rounded-xl p-6">
+                    <div class="text-center py-4 text-gray-500">
+                        <i class="fas fa-calculator text-3xl mb-3"></i>
+                        <p>Click "Calculate OFDM Parameters" to see your results</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Explanation Section for OFDM -->
+            <div id="ai-explanation-ofdm"
+                class="hidden mt-8 p-8 bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 rounded-2xl border-2 border-purple-soft shadow-lg">
+                <div class="flex items-center mb-6">
+                    <div class="bg-gradient-to-r from-purple-deep to-indigo-600 p-3 rounded-full mr-4">
+                        <i class="fas fa-robot text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-2xl font-bold text-gray-800 mb-1">AI OFDM Analysis & Explanation</h4>
+                        <p class="text-gray-600">Advanced AI analysis of your OFDM system design</p>
+                    </div>
+                </div>
+                <div id="ai-content-ofdm"
+                    class="text-gray-700 leading-relaxed text-lg bg-white p-6 rounded-xl shadow-inner">
+                    <div class="flex items-center justify-center py-8">
+                        <div class="spinner mr-3"></div>
+                        <span class="text-purple-deep font-semibold">AI is analyzing your OFDM results...</span>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- Link Budget Section -->
-        <section id="link" class="calculator-section">
-            <div class="section-header">
-                <i class="fas fa-signal"></i>
-                <h2>Link Budget Calculation</h2>
+        <section id="link"
+            class="calculator-section glass-effect rounded-3xl shadow-purple-lg border border-purple-light p-10 mb-10">
+            <div class="flex items-center mb-8 pb-6 border-b-2 border-purple-light">
+                <div class="bg-gradient-to-r from-purple-medium to-purple-deep p-4 rounded-2xl mr-6 shadow-lg">
+                    <i class="fas fa-signal text-white text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Link Budget Calculation</h2>
+                    <p class="text-gray-600">Analyze signal strength and coverage parameters</p>
+                </div>
             </div>
-            <div class="calculator-form">
-                <div class="input-group"><label for="tx-power-link">Transmit Power (dBm)</label><input type="number" id="tx-power-link" value="30"></div>
-                <div class="input-group"><label for="tx-antenna">TX Antenna Gain (dBi)</label><input type="number" id="tx-antenna" value="5"></div>
-                <div class="input-group"><label for="rx-antenna">RX Antenna Gain (dBi)</label><input type="number" id="rx-antenna" value="3"></div>
-                <div class="input-group"><label for="path-loss">Path Loss (dB)</label><input type="number" id="path-loss" value="110"></div>
-                <div class="input-group"><label for="fading-margin">Fading Margin (dB)</label><input type="number" id="fading-margin" value="10"></div>
-                <div class="input-group"><label for="rx-sensitivity-link">RX Sensitivity (dBm)</label><input type="number" id="rx-sensitivity-link" value="-85"></div>
-                <button class="calculate-btn">Calculate Link Budget</button>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+                <div class="space-y-3">
+                    <label for="tx-power-link"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Transmit Power
+                        (dBm)</label>
+                    <input type="number" id="tx-power-link" value="30"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="tx-antenna" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">TX
+                        Antenna Gain (dBi)</label>
+                    <input type="number" id="tx-antenna" value="5"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="rx-antenna" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">RX
+                        Antenna Gain (dBi)</label>
+                    <input type="number" id="rx-antenna" value="3"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="path-loss" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Path
+                        Loss (dB)</label>
+                    <input type="number" id="path-loss" value="110"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="fading-margin"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Fading Margin (dB)</label>
+                    <input type="number" id="fading-margin" value="10"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="rx-sensitivity-link"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">RX Sensitivity
+                        (dBm)</label>
+                    <input type="number" id="rx-sensitivity-link" value="-85"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
             </div>
-            <div class="result-container">
-                <h3>Link Budget Analysis</h3>
-                <div class="result-value">Link Margin: 18 dB | Max Path Loss: 128 dB</div>
+            <button
+                class="calculate-btn w-full bg-gradient-to-r from-purple-deep to-purple-medium text-white font-bold py-5 px-10 rounded-xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 transform text-lg">
+                <i class="fas fa-calculator mr-3"></i>
+                Calculate Link Budget
+                <i class="fas fa-arrow-right ml-3"></i>
+            </button>
+            <div class="result-highlight rounded-2xl p-8 mt-8 shadow-lg">
+                <h3 class="text-xl font-bold text-purple-deep mb-4 flex items-center">
+                    <i class="fas fa-satellite-dish mr-3"></i>
+                    Link Budget Analysis
+                </h3>
+                <div class="result-value text-lg text-purple-deep bg-white rounded-xl p-6">
+                    <div class="text-center py-4 text-gray-500">
+                        <i class="fas fa-calculator text-3xl mb-3"></i>
+                        <p>Click "Calculate Link Budget" to see your results</p>
+                    </div>
+                </div>
+            </div>
+            <!-- AI Explanation Section for Link Budget -->
+            <div id="ai-explanation-link"
+                class="hidden mt-8 p-8 bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 rounded-2xl border-2 border-purple-soft shadow-lg">
+                <div class="flex items-center mb-6">
+                    <div class="bg-gradient-to-r from-purple-deep to-indigo-600 p-3 rounded-full mr-4">
+                        <i class="fas fa-robot text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-2xl font-bold text-gray-800 mb-1">AI Link Budget Analysis & Explanation</h4>
+                        <p class="text-gray-600">Advanced AI analysis of your link budget calculations</p>
+                    </div>
+                </div>
+                <div id="ai-content-link"
+                    class="text-gray-700 leading-relaxed text-lg bg-white p-6 rounded-xl shadow-inner">
+                    <div class="flex items-center justify-center py-8">
+                        <div class="spinner mr-3"></div>
+                        <span class="text-purple-deep font-semibold">AI is analyzing your link budget results...</span>
+                    </div>
+                </div>
             </div>
         </section>
 
         <!-- Cellular Design Section -->
-        <section id="cellular" class="calculator-section">
-            <div class="section-header">
-                <i class="fas fa-tower-cell"></i>
-                <h2>Cellular System Design</h2>
+        <section id="cellular"
+            class="calculator-section glass-effect rounded-3xl shadow-purple-lg border border-purple-light p-10 mb-10">
+            <div class="flex items-center mb-8 pb-6 border-b-2 border-purple-light">
+                <div class="bg-gradient-to-r from-purple-medium to-purple-deep p-4 rounded-2xl mr-6 shadow-lg">
+                    <i class="fas fa-tower-cell text-white text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Cellular System Design</h2>
+                    <p class="text-gray-600">Design and optimize cellular network parameters</p>
+                </div>
             </div>
-            <div class="calculator-form">
-                <div class="input-group"><label for="subscribers">Subscribers per Cell</label><input type="number" id="subscribers" value="500"></div>
-                <div class="input-group"><label for="traffic">Traffic per User (Erlang)</label><input type="number" id="traffic" value="0.02" step="0.01"></div>
-                <div class="input-group"><label for="cell-radius">Cell Radius (km)</label><input type="number" id="cell-radius" value="1.5"></div>
-                <div class="input-group"><label for="frequency-reuse">Frequency Reuse Factor</label><input type="number" id="frequency-reuse" value="7"></div>
-                <div class="input-group"><label for="channels">Available Channels</label><input type="number" id="channels" value="56"></div>
-                <button class="calculate-btn">Design Cellular System</button>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+                <div class="space-y-3">
+                    <label for="subscribers"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Subscribers per
+                        Cell</label>
+                    <input type="number" id="subscribers" value="500"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="traffic" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Traffic
+                        per User (Erlang)</label>
+                    <input type="number" id="traffic" value="0.02" step="0.01"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="cell-radius" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Cell
+                        Radius (km)</label>
+                    <input type="number" id="cell-radius" value="1.5"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="frequency-reuse"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Frequency Reuse
+                        Factor</label>
+                    <input type="number" id="frequency-reuse" value="7"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="channels"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Available Channels</label>
+                    <input type="number" id="channels" value="56"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
             </div>
-            <div class="result-container">
-                <h3>Cellular System Analysis</h3>
-                <div class="result-value">Capacity: 980 Erlang | Coverage Area: 7.07 km²</div>
+            <button
+                class="calculate-btn w-full bg-gradient-to-r from-purple-deep to-purple-medium text-white font-bold py-5 px-10 rounded-xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 transform text-lg">
+                <i class="fas fa-calculator mr-3"></i>
+                Design Cellular System
+                <i class="fas fa-arrow-right ml-3"></i>
+            </button>
+            <div class="result-highlight rounded-2xl p-8 mt-8 shadow-lg">
+                <h3 class="text-xl font-bold text-purple-deep mb-4 flex items-center">
+                    <i class="fas fa-network-wired mr-3"></i>
+                    Cellular System Analysis
+                </h3>
+                <div class="result-value text-lg text-purple-deep bg-white rounded-xl p-6">
+                    <div class="text-center py-4 text-gray-500">
+                        <i class="fas fa-calculator text-3xl mb-3"></i>
+                        <p>Click "Design Cellular System" to see your results</p>
+                    </div>
+                </div>
+            </div>
+            <!-- AI Explanation Section for Cellular -->
+            <div id="ai-explanation-cellular"
+                class="hidden mt-8 p-8 bg-gradient-to-r from-indigo-50 via-purple-50 to-pink-50 rounded-2xl border-2 border-purple-soft shadow-lg">
+                <div class="flex items-center mb-6">
+                    <div class="bg-gradient-to-r from-purple-deep to-indigo-600 p-3 rounded-full mr-4">
+                        <i class="fas fa-robot text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-2xl font-bold text-gray-800 mb-1">AI Cellular System Analysis & Explanation</h4>
+                        <p class="text-gray-600">Advanced AI analysis of your cellular system design</p>
+                    </div>
+                </div>
+                <div id="ai-content-cellular"
+                    class="text-gray-700 leading-relaxed text-lg bg-white p-6 rounded-xl shadow-inner">
+                    <div class="flex items-center justify-center py-8">
+                        <div class="spinner mr-3"></div>
+                        <span class="text-purple-deep font-semibold">AI is analyzing your cellular system
+                            results...</span>
+                    </div>
+                </div>
             </div>
         </section>
-
-        <footer>
-            <p>Wireless Networks Calculator &copy; 2023 | Moath AbdAlbaqi & Amr Zeidan</p>
-        </footer>
     </div>
-    <script src="all.js"></script>
-    <script src="first.js"></script>
-    <script src="second.js"></script>
-    <script src="third.js"></script>
-    <script src="fourth.js"></script>
+    <!-- Footer -->
+    <footer class="mt-10 py-12 border-t-2 border-purple-light bg-white">
+        <div class="max-w-4xl mx-auto px-4">
+            <!-- Main footer content -->
+            <div class="text-center mb-8">
+                <h3
+                    class="text-3xl font-bold font-sans bg-gradient-to-r from-purple-deep to-purple-medium bg-clip-text text-transparent mb-4 tracking-tight">
+                    <i class="fas fa-satellite mr-3"></i>
+                    Wireless Networks Calculator
+                    <i class="fas fa-satellite ml-3"></i>
+                </h3>
+                <p class="text-gray-600 max-w-2xl mx-auto font-medium">
+                    Advanced engineering tools for wireless communication systems design and analysis
+                </p>
+            </div>
+
+            <!-- Meet the Team Section -->
+            <div class="text-center mb-12 relative">
+                <!-- Main title with icon -->
+                <div class="flex items-center justify-center mb-6">
+                    <h3
+                        class="text-3xl font-bold bg-gradient-to-r from-purple-deep to-purple-medium bg-clip-text text-transparent">
+                        Meet the Team
+                    </h3>
+                </div>
+
+                <!-- Subtitle with decorative elements at corners -->
+                <div class="relative inline-block">
+                    <p class="text-gray-600 text-lg font-medium mb-11 relative z-10 px-8">
+                        Get to know the brilliant minds behind this project
+                    </p>
+
+                    <!-- Left corner decorative element -->
+                    <div class="absolute top-0 left-0 w-4 h-4 bg-purple-medium rounded-full opacity-60 animate-pulse">
+                    </div>
+
+                    <!-- Right corner decorative element -->
+                    <div class="absolute top-0 right-0 w-4 h-4 bg-purple-deep rounded-full opacity-60 animate-pulse"
+                        style="animation-delay: 0.5s;"></div>
+
+                    <!-- Additional small decorative dots at bottom corners -->
+                    <div class="absolute bottom-6 left-2 w-2 h-2 bg-purple-soft rounded-full opacity-40 animate-pulse"
+                        style="animation-delay: 1s;"></div>
+                    <div class="absolute bottom-6 right-2 w-2 h-2 bg-purple-light rounded-full opacity-40 animate-pulse"
+                        style="animation-delay: 1.5s;"></div>
+
+                    <!-- Decorative underline -->
+                    <div
+                        class="absolute bottom-6 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-purple-medium to-purple-deep rounded-full opacity-60">
+                    </div>
+                </div>
+
+                <!-- Arrow indicators pointing to team members -->
+                <div class="hidden md:block absolute top-full left-0 right-0 mt-3">
+                    <!-- Left arrow pointing to first student -->
+                    <div class="absolute left-1/4 transform -translate-x-1/2">
+                        <div class="flex flex-col items-center">
+                            <div class="animate-bounce">
+                                <i class="fas fa-arrow-down text-purple-medium text-2xl mb-2"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right arrow pointing to second student -->
+                    <div class="absolute right-1/4 transform translate-x-1/2">
+                        <div class="flex flex-col items-center">
+                            <div class="animate-bounce" style="animation-delay: 0.5s;">
+                                <i class="fas fa-arrow-down text-purple-deep text-2xl mb-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Student information -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <!-- Student 1 -->
+                <div
+                    class="flex items-center p-4 rounded-lg border border-purple-soft hover:border-purple-medium transition-all duration-300 bg-white">
+                    <div class="w-12 h-12 rounded-full overflow-hidden mr-4 flex-shrink-0">
+                        <img src="assets/imgs/amr.jpg" alt="Amr Zedan" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-2">
+                        <h5 class="text-base font-bold text-gray-800 mb-1">Amr Zedan</h5>
+                        <p class="text-purple-deep font-semibold text-sm mb-1">Student ID: 1210239</p>
+                        <p class="text-gray-600 text-xs mb-0">Computer Engineering Student</p>
+                    </div>
+                    <!-- Vertical line separator -->
+                    <div class="w-px h-12 bg-purple-soft mx-4"></div>
+                    <!-- Social media contacts -->
+                    <div class="text-center flex-1">
+                        <p class="text-xs text-gray-500 font-semibold mb-2 uppercase tracking-wide">Contact me</p>
+                        <div class="flex space-x-3 justify-center">
+                            <a href="https://facebook.com/amrzedan2003" target="_blank"
+                                class="text-blue-600 hover:text-blue-800 transition-colors duration-200">
+                                <i class="fab fa-facebook text-lg"></i>
+                            </a>
+                            <a href="https://linkedin.com/in/amrzedan" target="_blank"
+                                class="text-blue-700 hover:text-blue-900 transition-colors duration-200">
+                                <i class="fab fa-linkedin text-lg"></i>
+                            </a>
+                            <a href="https://github.com/amrzedan2003" target="_blank"
+                                class="text-gray-800 hover:text-gray-600 transition-colors duration-200">
+                                <i class="fab fa-github text-lg"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Student 2 -->
+                <div
+                    class="flex items-center p-4 rounded-lg border border-purple-soft hover:border-purple-medium transition-all duration-300 bg-white">
+                    <div class="w-12 h-12 rounded-full overflow-hidden mr-4 flex-shrink-0">
+                        <img src="assets/imgs/moath.jpeg" alt="Moath Abd Albaqi" class="w-full h-full object-cover">
+                    </div>
+                    <div class="flex-2">
+                        <h5 class="text-base font-bold text-gray-800 mb-1">Moath Abd Albaqi</h5>
+                        <p class="text-purple-deep font-semibold text-sm mb-1">Student ID: 1210125</p>
+                        <p class="text-gray-600 text-xs mb-0">Computer Engineering Student</p>
+                    </div>
+                    <!-- Vertical line separator -->
+                    <div class="w-px h-12 bg-purple-soft mx-4"></div>
+                    <!-- Social media contacts -->
+                    <div class="text-center flex-1">
+                        <p class="text-xs text-gray-500 font-semibold mb-2 uppercase tracking-wide">Contact me</p>
+                        <div class="flex space-x-3 justify-center">
+                            <a href="https://facebook.com/moath.abd.albaqi.2025" target="_blank"
+                                class="text-blue-600 hover:text-blue-800 transition-colors duration-200">
+                                <i class="fab fa-facebook text-lg"></i>
+                            </a>
+                            <a href="https://linkedin.com/in/moath-abdalbaqi" target="_blank"
+                                class="text-blue-700 hover:text-blue-900 transition-colors duration-200">
+                                <i class="fab fa-linkedin text-lg"></i>
+                            </a>
+                            <a href="https://github.com/SuperMoathx7" target="_blank"
+                                class="text-gray-800 hover:text-gray-600 transition-colors duration-200">
+                                <i class="fab fa-github text-lg"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Open Source Section -->
+            <div class="mb-6">
+                <div
+                    class="flex items-center justify-between bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg px-6 py-4 border border-gray-200 mb-4">
+                    <div class="flex items-center">
+                        <i class="fab fa-github text-gray-700 text-2xl mr-3"></i>
+                        <div class="text-left">
+                            <h5 class="font-bold text-gray-800 text-lg">Open Source Project</h5>
+                            <p class="text-gray-600 text-sm">This project is open source and available on GitHub</p>
+                        </div>
+                    </div>
+                    <!-- View Repository button -->
+                    <a href="https://github.com/SuperMoathx7/Wireless" target="_blank"
+                        class="inline-flex items-center px-6 py-3 bg-gray-900 hover:bg-gray-800 text-white rounded-lg transition-all duration-200 transform hover:scale-105 shadow-md hover:shadow-lg">
+                        <i class="fab fa-github mr-2"></i>
+                        <span class="font-semibold">View Repository</span>
+                    </a>
+                </div>
+
+                <!-- GitHub Actions -->
+                <div class="flex flex-wrap justify-center gap-3">
+                    <a href="https://github.com/SuperMoathx7/Wireless/stargazers" target="_blank"
+                        class="inline-flex items-center px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg transition-all duration-200 transform hover:scale-105 shadow-md hover:shadow-lg">
+                        <i class="fas fa-star mr-2"></i>
+                        <span class="font-semibold">Star the Repo</span>
+                    </a>
+
+                    <a href="https://github.com/SuperMoathx7/Wireless/issues" target="_blank"
+                        class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-all duration-200 transform hover:scale-105 shadow-md hover:shadow-lg">
+                        <i class="fas fa-heart mr-2"></i>
+                        <span class="font-semibold">Support Us</span>
+                    </a>
+
+                    <a href="https://github.com/SuperMoathx7/Wireless/fork" target="_blank"
+                        class="inline-flex items-center px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-all duration-200 transform hover:scale-105 shadow-md hover:shadow-lg">
+                        <i class="fas fa-code-branch mr-2"></i>
+                        <span class="font-semibold">Fork Project</span>
+                    </a>
+                </div>
+
+                <div class="text-center">
+                    <p class="text-gray-500 text-sm mt-4">
+                        <i class="fas fa-code mr-1"></i>
+                        Contributions, issues, and feature requests are welcome!
+                    </p>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="text-center pt-6 border-t border-purple-light">
+                <p class="text-gray-600 text-sm">
+                    AI-Powered Calculator for Wireless Networks &copy; 2025
+                    <br>
+                    Developed with
+                    <i class="fas fa-heart text-red-500 mx-1"></i>
+                    for educational purposes!
+                </p>
+            </div>
+        </div>
+    </footer>
+    <!-- JavaScript Modules -->
+    <script src="assets/js/wireless-calculator.js"></script>
+    <script src="assets/js/ofdm-calculator.js"></script>
+    <script src="assets/js/link-budget-calculator.js"></script>
+    <script src="assets/js/cellular-calculator.js"></script>
+    <script src="assets/js/ai-service.js"></script>
+    <script src="assets/js/main.js"></script>
 </body>
+
 </html>
