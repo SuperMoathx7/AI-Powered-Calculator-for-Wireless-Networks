@@ -15,6 +15,7 @@ class WirelessCalculator {
       rs: this.getInputValue("rs-compression"),
       rc: this.getInputValue("rc-encoding"),
       overhead: this.getInputValue("overhead-bits", false),
+      timeOneSegment: this.getInputValue("time-one-segment", false) / 1000,//new
     };
   }
 
@@ -43,7 +44,7 @@ class WirelessCalculator {
 
   // Perform wireless system calculations
   calculate(inputs) {
-    const { bandwidth, cutoffFreq, bitQuantizer, rs, rc, overhead } = inputs;
+    const { bandwidth, cutoffFreq, bitQuantizer, rs, rc, overhead, timeOneSegment } = inputs;
 
     // Use minimum of bandwidth and cutoff frequency for sampling
     const effectiveFreq = Math.min(cutoffFreq, bandwidth);
@@ -63,21 +64,19 @@ class WirelessCalculator {
     // Interleaver output (same as channel encoder for this model)
     const interleaverOutput = channelEncoderOutput;
 
-    // Additional calculations
-    const compressionRatio =
-      ((quantizerOutput - sourceEncoderOutput) / quantizerOutput) * 100;
-    const codingOverhead =
-      ((channelEncoderOutput - sourceEncoderOutput) / sourceEncoderOutput) *
-      100;
+    const interleaverInBits = interleaverOutput * timeOneSegment;
 
+    // Burst format overhead
+    const burstformat = (overhead/timeOneSegment) + interleaverOutput;//new
+    console.log("overhead/timonesegment", overhead/timeOneSegment);
+    console.log("Burst format output:", burstformat);
     return {
       samplerOutput,
       quantizerOutput,
       sourceEncoderOutput,
       channelEncoderOutput,
       interleaverOutput,
-      compressionRatio,
-      codingOverhead,
+      burstformat,
       effectiveFreq,
     };
   }
@@ -96,7 +95,7 @@ class WirelessCalculator {
 
     setTimeout(() => {
       const resultHTML = `
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div class="bg-gradient-to-r from-purple-light to-purple-soft p-4 rounded-xl">
             <div class="text-sm text-purple-deep font-semibold uppercase tracking-wide mb-2">Sampling Rate</div>
             <div class="text-xl font-bold text-purple-deep">${results.samplerOutput.toFixed(
@@ -104,16 +103,34 @@ class WirelessCalculator {
             )} samples/sec</div>
           </div>
           <div class="bg-gradient-to-r from-purple-medium to-purple-deep p-4 rounded-xl text-white">
-            <div class="text-sm opacity-90 font-semibold uppercase tracking-wide mb-2">Final Data Rate</div>
+            <div class="text-sm opacity-90 font-semibold uppercase tracking-wide mb-2">Quantizer Rate</div>
             <div class="text-xl font-bold">${(
-              results.interleaverOutput / 1000000
-            ).toFixed(2)} Mbps</div>
+              results.quantizerOutput / 1000
+            ).toFixed(2)} Kbps</div>
           </div>
           <div class="bg-gradient-to-r from-indigo-100 to-indigo-200 p-4 rounded-xl">
-            <div class="text-sm text-indigo-700 font-semibold uppercase tracking-wide mb-2">Compression</div>
-            <div class="text-xl font-bold text-indigo-700">${results.compressionRatio.toFixed(
-              1
-            )}%</div>
+            <div class="text-sm text-indigo-700 font-semibold uppercase tracking-wide mb-2">Source Encoder Rate</div>
+            <div class="text-xl font-bold text-indigo-700">${(results.sourceEncoderOutput / 1000).toFixed(
+              2
+            )} Kbps</div>
+          </div>
+          <div class="bg-gradient-to-r from-purple-light to-purple-soft p-4 rounded-xl">
+            <div class="text-sm text-purple-deep font-semibold uppercase tracking-wide mb-2">Channel Encoder Rate</div>
+            <div class="text-xl font-bold text-purple-deep">${(results.channelEncoderOutput / 1000).toFixed(
+              2
+            )} Kbps</div>
+          </div>
+          <div class="bg-gradient-to-r from-purple-medium to-purple-deep p-4 rounded-xl text-white">
+            <div class="text-sm opacity-90 font-semibold uppercase tracking-wide mb-2">Interleaver Rate</div>
+            <div class="text-xl font-bold">${(results.interleaverOutput / 1000).toFixed(
+              2
+            )} Kbps</div>
+          </div>
+          <div class="bg-gradient-to-r from-indigo-100 to-indigo-200 p-4 rounded-xl">
+            <div class="text-sm text-indigo-700 font-semibold uppercase tracking-wide mb-2">Burst Formatting Rate</div>
+            <div class="text-xl font-bold text-indigo-700">${(results.burstformat / 1000).toFixed(
+              2
+            )} Kbps</div>
           </div>
         </div>
         <div class="mt-4 text-center">

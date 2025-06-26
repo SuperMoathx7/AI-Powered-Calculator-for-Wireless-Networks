@@ -28,7 +28,8 @@ Input Parameters:
 - Bit Quantizer: ${calculationResults.bitQuantizer} bits
 - RS Compression Rate: ${calculationResults.rs}
 - RC Channel Encoding Rate: ${calculationResults.rc}
-- Overhead Bits: ${calculationResults.overhead}
+- Overhead Bits: ${calculationResults.overhead} bits
+- Time One Segment: ${calculationResults.timeOneSegment} seconds
 
 Calculated System Outputs:
 - Sampling Rate: ${calculationResults.samplerOutput} samples/sec
@@ -36,13 +37,16 @@ Calculated System Outputs:
 - Source Encoder Output: ${calculationResults.sourceEncoderOutput} bits/sec
 - Channel Encoder Output: ${calculationResults.channelEncoderOutput} bits/sec
 - Final Interleaver Output: ${calculationResults.interleaverOutput} bits/sec
+- Burst Format Output: ${calculationResults.burstformat} bits/sec
 
 Please provide:
 1. Technical analysis of each calculation step
 2. Explanation of the signal processing chain
 3. Performance implications
 4. Recommendations for optimization
-5. Real-world applications context`;
+5. Real-world applications context
+
+and make the output suitable for engineering students, and make it in paragraphs, a header, then paragraphs, without formatting, only text, and in short please, in short, two paragraphs at most.`;
           break;
 
         case "ofdm":
