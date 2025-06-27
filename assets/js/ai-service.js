@@ -72,7 +72,10 @@ Please provide:
 3. Impact of cyclic prefix on system efficiency
 4. Modulation scheme analysis
 5. Recommendations for optimization
-6. Applications in modern wireless standards (WiFi, LTE, 5G)`;
+6. Applications in modern wireless standards (WiFi, LTE, 5G)
+
+and make the output suitable for engineering students, and make it in paragraphs, a header, then paragraphs, without formatting, only text, and in short please, in short, two paragraphs at most.
+`;
           break;
 
         case "link":
@@ -100,7 +103,10 @@ Please provide:
 3. Link margin adequacy evaluation
 4. Path loss model considerations
 5. Recommendations for link optimization
-6. Real-world deployment considerations`;
+6. Real-world deployment considerations
+
+and make the output suitable for engineering students, and make it in paragraphs, a header, then paragraphs, without formatting, only text, and in short please, in short, two paragraphs at most.
+`;
           break;
 
         case "cellular":
@@ -127,7 +133,10 @@ Please provide:
 3. Frequency reuse impact assessment
 4. Traffic engineering evaluation
 5. Network optimization recommendations
-6. Scalability considerations for network growth`;
+6. Scalability considerations for network growth
+
+and make the output suitable for engineering students, and make it in paragraphs, a header, then paragraphs, without formatting, only text, and in short please, in short, two paragraphs at most.
+`;
           break;
 
         default:
