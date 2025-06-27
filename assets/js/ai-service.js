@@ -79,31 +79,36 @@ and make the output suitable for engineering students, and make it in paragraphs
           break;
 
         case "link":
-          prompt = `As a RF link budget expert, please analyze these link budget calculations and provide detailed technical insights:
+          prompt = `As a RF link budget expert, please analyze these bidirectional link budget calculations and provide detailed technical insights:
 
 Input Parameters:
-- Transmit Power: ${calculationResults.txPower} dBm
-- TX Antenna Gain: ${calculationResults.txAntenna} dBi
-- RX Antenna Gain: ${calculationResults.rxAntenna} dBi
-- Path Loss: ${calculationResults.pathLoss} dB
-- Fading Margin: ${calculationResults.fadingMargin} dB
-- RX Sensitivity: ${calculationResults.rxSensitivity} dBm
+- AP Transmit Power: ${calculationResults.transmittedPowerAp} dBm
+- AP Antenna Gain: ${calculationResults.apAntennaGain} dBi
+- AP RX Sensitivity: ${calculationResults.apRxSensitivity} dBm
+- Client Transmit Power: ${calculationResults.transmittedPowerClient} dBm
+- Client Antenna Gain: ${calculationResults.clientAntennaGain} dBi
+- Client RX Sensitivity: ${calculationResults.clientRxSensitivity} dBm
+- Cable Loss Each Side: ${calculationResults.cableLossEachSide} dB
+- Distance: ${calculationResults.distanceKm} km
+- Frequency: ${calculationResults.frequencyGhz} GHz
 
 Calculated Link Budget Results:
-- EIRP: ${calculationResults.eirp} dBm
-- Received Power: ${calculationResults.receivedPower} dBm
-- Link Margin: ${calculationResults.linkMargin} dB
-- Maximum Path Loss: ${calculationResults.maxPathLoss} dB
-- Estimated Range: ${calculationResults.freeSpaceRange} km
-- SNR Estimate: ${calculationResults.snrEstimate} dB
+- AP Transmitted Power: ${calculationResults.transmittedPowerAp} dBm
+- Client Received Signal Strength: ${calculationResults.receivedSignalStrengthClient} dBm
+- Client Transmitted Power: ${calculationResults.transmittedPowerClient} dBm
+- AP Received Signal Strength: ${calculationResults.receivedSignalStrengthAp} dBm
+- Free Space Path Loss: ${calculationResults.freeSpaceLoss} dB
+- Link Margin (AP to Client): ${calculationResults.linkMarginApToClient} dB
+- Link Margin (Client to AP): ${calculationResults.linkMarginClientToAp} dB
+- Link Status: ${calculationResults.status}
 
 Please provide:
-1. Link budget analysis and interpretation
-2. Coverage range assessment
-3. Link margin adequacy evaluation
-4. Path loss model considerations
-5. Recommendations for link optimization
-6. Real-world deployment considerations
+1. Bidirectional link budget analysis and interpretation
+2. Free Space Path Loss calculation assessment
+3. Link margin adequacy evaluation for both directions
+4. Cable loss impact on overall system performance
+5. Recommendations for link optimization and reliability
+6. Real-world wireless deployment considerations
 
 and make the output suitable for engineering students, and make it in paragraphs, a header, then paragraphs, without formatting, only text, and in short please, in short, two paragraphs at most.
 `;

@@ -9,12 +9,15 @@ class LinkBudgetCalculator {
   // Get link budget inputs with validation
   getInputs() {
     return {
-      txPower: this.getInputValue("tx-power-link"),
-      txAntenna: this.getInputValue("tx-antenna"),
-      rxAntenna: this.getInputValue("rx-antenna"),
-      pathLoss: this.getInputValue("path-loss"),
-      fadingMargin: this.getInputValue("fading-margin"),
-      rxSensitivity: this.getInputValue("rx-sensitivity-link"),
+      apTxPower: this.getInputValue("access-point-transmit-power"),
+      apAntennaGain: this.getInputValue("access-point-antenna-gain"),
+      apRxSensitivity: this.getInputValue("access-point-receive-sensitivity"),
+      clientTxPower: this.getInputValue("client-transmit-power"),
+      clientAntennaGain: this.getInputValue("client-antenna-gain"),
+      clientRxSensitivity: this.getInputValue("client-receive-sensitivity"),
+      cableLossEachSide: this.getInputValue("cable-loss-each-side"),
+      distanceKm: this.getInputValue("distance"),
+      frequencyGhz: this.getInputValue("frequency"),
     };
   }
 
@@ -44,31 +47,58 @@ class LinkBudgetCalculator {
   // Perform link budget calculations
   calculate(inputs) {
     const {
-      txPower,
-      txAntenna,
-      rxAntenna,
-      pathLoss,
-      fadingMargin,
-      rxSensitivity,
+      apTxPower,
+      apAntennaGain,
+      apRxSensitivity,
+      clientTxPower,
+      clientAntennaGain,
+      clientRxSensitivity,
+      cableLossEachSide,
+      distanceKm,
+      frequencyGhz,
     } = inputs;
 
-    // Link budget calculations (all in dB/dBm)
-    const eirp = txPower + txAntenna; // Effective Isotropic Radiated Power
-    const receivedPower = eirp + rxAntenna - pathLoss - fadingMargin;
-    const linkMargin = receivedPower - rxSensitivity;
-    const maxPathLoss = eirp + rxAntenna - rxSensitivity - fadingMargin;
+    // Convert distance to meters and frequency to Hz for FSPL calculation
+    const distanceM = distanceKm * 1000;
+    const frequencyHz = frequencyGhz * 1e9;
 
-    // Additional calculations
-    const freeSpaceRange = Math.sqrt(Math.pow(10, (maxPathLoss - 32.45) / 20)); // km (assuming 1 GHz)
-    const snrEstimate = linkMargin + 10; // Rough estimate
+    // Calculate Free Space Path Loss (FSPL) in dB
+    const fsplDb =
+      20 * Math.log10(distanceM) + 20 * Math.log10(frequencyHz) - 147.56;
+
+    // AP to Client Link
+    const rxPowerClient =
+      apTxPower +
+      apAntennaGain -
+      cableLossEachSide -
+      fsplDb -
+      cableLossEachSide +
+      clientAntennaGain;
+    const linkMarginApToClient = rxPowerClient - clientRxSensitivity;
+
+    // Client to AP Link
+    const rxPowerAp =
+      clientTxPower +
+      clientAntennaGain -
+      cableLossEachSide -
+      fsplDb -
+      cableLossEachSide +
+      apAntennaGain;
+    const linkMarginClientToAp = rxPowerAp - apRxSensitivity;
+
+    // Determine Link Status
+    const linkReliable =
+      linkMarginApToClient >= 0 && linkMarginClientToAp >= 0 ? "Yes" : "No";
 
     return {
-      eirp,
-      receivedPower,
-      linkMargin,
-      maxPathLoss,
-      freeSpaceRange,
-      snrEstimate,
+      transmittedPowerAp: apTxPower,
+      receivedSignalStrengthClient: rxPowerClient,
+      transmittedPowerClient: clientTxPower,
+      receivedSignalStrengthAp: rxPowerAp,
+      freeSpaceLoss: fsplDb,
+      linkMarginApToClient: linkMarginApToClient,
+      linkMarginClientToAp: linkMarginClientToAp,
+      status: linkReliable,
     };
   }
 
@@ -86,30 +116,64 @@ class LinkBudgetCalculator {
 
     setTimeout(() => {
       const resultHTML = `
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div class="bg-gradient-to-r from-orange-100 to-orange-200 p-4 rounded-xl">
-            <div class="text-sm text-orange-700 font-semibold uppercase tracking-wide mb-2">Link Margin</div>
-            <div class="text-xl font-bold text-orange-700">${results.linkMargin.toFixed(
-              1
-            )} dB</div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div class="bg-gradient-to-r from-blue-100 to-blue-200 p-4 rounded-xl">
+            <div class="text-sm text-blue-700 font-semibold uppercase tracking-wide mb-2">AP Transmitted Power</div>
+            <div class="text-xl font-bold text-blue-700">${results.transmittedPowerAp.toFixed(
+              2
+            )} dBm</div>
           </div>
-          <div class="bg-gradient-to-r from-red-100 to-red-200 p-4 rounded-xl">
-            <div class="text-sm text-red-700 font-semibold uppercase tracking-wide mb-2">Max Path Loss</div>
-            <div class="text-xl font-bold text-red-700">${results.maxPathLoss.toFixed(
-              1
-            )} dB</div>
+                    <div class="bg-gradient-to-r from-indigo-100 to-indigo-200 p-4 rounded-xl">
+            <div class="text-sm text-indigo-700 font-semibold uppercase tracking-wide mb-2">AP Received Power</div>
+            <div class="text-xl font-bold text-indigo-700">${results.receivedSignalStrengthAp.toFixed(
+              2
+            )} dBm</div>
           </div>
-          <div class="bg-gradient-to-r from-pink-100 to-pink-200 p-4 rounded-xl">
-            <div class="text-sm text-pink-700 font-semibold uppercase tracking-wide mb-2">Est. Range</div>
-            <div class="text-xl font-bold text-pink-700">${results.freeSpaceRange.toFixed(
-              1
-            )} km</div>
+                    <div class="bg-gradient-to-r from-purple-100 to-purple-200 p-4 rounded-xl">
+            <div class="text-sm text-purple-700 font-semibold uppercase tracking-wide mb-2">Client Transmitted Power</div>
+            <div class="text-xl font-bold text-purple-700">${results.transmittedPowerClient.toFixed(
+              2
+            )} dBm</div>
+          </div>
+          <div class="bg-gradient-to-r from-green-100 to-green-200 p-4 rounded-xl">
+            <div class="text-sm text-green-700 font-semibold uppercase tracking-wide mb-2">Client Received Power</div>
+            <div class="text-xl font-bold text-green-700">${results.receivedSignalStrengthClient.toFixed(
+              2
+            )} dBm</div>
           </div>
         </div>
-        <div class="mt-4 text-center">
-          <div class="inline-flex items-center text-green-600 bg-green-50 px-4 py-2 rounded-full">
-            <i class="fas fa-check-circle mr-2"></i>
-            Link Budget Complete
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div class="bg-gradient-to-r from-red-100 to-red-200 p-4 rounded-xl">
+            <div class="text-sm text-red-700 font-semibold uppercase tracking-wide mb-2">Free Space Path Loss</div>
+            <div class="text-xl font-bold text-red-700">${results.freeSpaceLoss.toFixed(
+              2
+            )} dB</div>
+          </div>
+          <div class="bg-gradient-to-r from-orange-100 to-orange-200 p-4 rounded-xl">
+            <div class="text-sm text-orange-700 font-semibold uppercase tracking-wide mb-2">AP to Client Margin</div>
+            <div class="text-xl font-bold text-orange-700">${results.linkMarginApToClient.toFixed(
+              2
+            )} dB</div>
+          </div>
+          <div class="bg-gradient-to-r from-yellow-100 to-yellow-200 p-4 rounded-xl">
+            <div class="text-sm text-yellow-700 font-semibold uppercase tracking-wide mb-2">Client to AP Margin</div>
+            <div class="text-xl font-bold text-yellow-700">${results.linkMarginClientToAp.toFixed(
+              2
+            )} dB</div>
+          </div>
+        </div>
+        <div class="text-center">
+          <div class="inline-flex items-center ${
+            results.status === "Yes"
+              ? "text-green-600 bg-green-50"
+              : "text-red-600 bg-red-50"
+          } px-6 py-3 rounded-full">
+            <i class="fas ${
+              results.status === "Yes" ? "fa-check-circle" : "fa-times-circle"
+            } mr-2"></i>
+            Link ${results.status === "Yes" ? "Reliable" : "Not Reliable"} (${
+        results.status
+      })
           </div>
         </div>
       `;
