@@ -118,27 +118,33 @@ and make the output suitable for engineering students, and make it in paragraphs
           prompt = `As a cellular network design expert, please analyze these cellular system calculations and provide comprehensive insights:
 
 Input Parameters:
-- Subscribers per Cell: ${calculationResults.subscribers}
-- Traffic per User: ${calculationResults.traffic} Erlang
-- Cell Radius: ${calculationResults.cellRadius} km
-- Frequency Reuse Factor: ${calculationResults.frequencyReuse}
-- Available Channels: ${calculationResults.channels}
+- Time per Carrier: ${calculationResults.timePerCarrier} seconds
+- Number of Users: ${calculationResults.numUsers}
+- Average Calls per Day: ${calculationResults.avgCallsPerDay}
+- Base Station Power: ${calculationResults.basePower} watts
+- Path Loss Exponent: ${calculationResults.pathLossExponent}
+- Interference Margin: ${calculationResults.interferenceMargin} dB
+- Cluster Size: ${calculationResults.clusterSize}
+- Required GoS: ${calculationResults.requiredGoS}%
+- Power per Carrier: ${calculationResults.powerPerCarrier} watts
 
 Calculated Cellular System Results:
-- Cell Area: ${calculationResults.cellArea} km²
-- Total Traffic: ${calculationResults.totalTraffic} Erlang
-- Channels per Cell: ${calculationResults.channelsPerCell}
-- Capacity per Cell: ${calculationResults.capacityPerCell} Erlang
-- Subscriber Capacity: ${calculationResults.subscriberCapacity}
-- Area Efficiency: ${calculationResults.areaEfficiency} subscribers/km²
+- Maximum Distance: ${calculationResults.maxDistance} m
+- Cell Size: ${calculationResults.cellSize} m²
+- Number of Cells: ${calculationResults.numCells}
+- Traffic Load: ${calculationResults.trafficLoad} Erlang
+- Cluster Size: ${calculationResults.clusterSize}
+- Minimum Carriers Required: ${calculationResults.minCarriers}
+- Actual GoS Achieved: ${calculationResults.actualGoS}%
+- System Efficiency: ${calculationResults.efficiency}%
 
 Please provide:
-1. Cellular network capacity analysis
-2. Coverage and capacity trade-offs
-3. Frequency reuse impact assessment
-4. Traffic engineering evaluation
-5. Network optimization recommendations
-6. Scalability considerations for network growth
+1. Cellular network design analysis with focus on coverage and capacity planning
+2. Traffic engineering evaluation including Erlang-B blocking probability analysis
+3. Power budget assessment and interference management considerations
+4. Cluster size impact on frequency reuse and system capacity
+5. Grade of Service (GoS) performance evaluation and optimization recommendations
+6. Real-world deployment considerations for cellular network planning
 
 and make the output suitable for engineering students, and make it in paragraphs, a header, then paragraphs, without formatting, only text, and in short please, in short, two paragraphs at most.
 `;

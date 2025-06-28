@@ -232,13 +232,15 @@
                 </div>
                 <div class="space-y-3">
                     <label for="total-bandwidth"
-                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Total Bandwidth (kHz)</label>
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Total Bandwidth
+                        (kHz)</label>
                     <input type="number" id="total-bandwidth" value="20000"
                         class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
                 </div>
                 <div class="space-y-3">
                     <label for="bandwidth-per-rb"
-                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Bandwidth for each Resource Block (kHz)</label>
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Bandwidth for each
+                        Resource Block (kHz)</label>
                     <input type="number" id="bandwidth-per-rb" value="180"
                         class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
                 </div>
@@ -250,7 +252,8 @@
                 </div>
                 <div class="space-y-3">
                     <label for="time-for-symbol"
-                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Time for Symbol (ms)</label>
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Time for Symbol
+                        (ms)</label>
                     <input type="number" id="time-for-symbol" value="0.0714" step="0.0001"
                         class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
                 </div>
@@ -262,7 +265,8 @@
                 </div>
                 <div class="space-y-3">
                     <label for="subcarrier-spacing"
-                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Subcarrier Spacing (kHz)</label>
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Subcarrier Spacing
+                        (kHz)</label>
                     <input type="number" id="subcarrier-spacing" value="15"
                         class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
                 </div>
@@ -443,36 +447,107 @@
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
                 <div class="space-y-3">
-                    <label for="subscribers"
-                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Subscribers per
-                        Cell</label>
-                    <input type="number" id="subscribers" value="500"
+                    <label for="timePerCarrier"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Time per Carrier</label>
+                    <input type="number" id="timePerCarrier" value="1"
                         class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
                 </div>
                 <div class="space-y-3">
-                    <label for="traffic" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Traffic
-                        per User (Erlang)</label>
-                    <input type="number" id="traffic" value="0.02" step="0.01"
+                    <label for="NumberOfUsers"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Number of Users</label>
+                    <input type="number" id="NumberOfUsers" value="10000"
                         class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
                 </div>
                 <div class="space-y-3">
-                    <label for="cell-radius" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Cell
-                        Radius (km)</label>
-                    <input type="number" id="cell-radius" value="1.5"
+                    <label for="AveargeCallPerDay"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Average Call per
+                        Day</label>
+                    <input type="number" id="AveargeCallPerDay" value="3"
                         class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
                 </div>
                 <div class="space-y-3">
-                    <label for="frequency-reuse"
-                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Frequency Reuse
-                        Factor</label>
-                    <input type="number" id="frequency-reuse" value="7"
+                    <label for="AveargeDuraion"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Average Duration
+                        (min)</label>
+                    <input type="number" id="AveargeDuraion" value="2"
                         class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
                 </div>
                 <div class="space-y-3">
-                    <label for="channels"
-                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Available Channels</label>
-                    <input type="number" id="channels" value="56"
+                    <label for="callDropPropapility"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Call Drop
+                        Probability</label>
+                    <input type="number" id="callDropPropapility" value="0.02" step="0.01"
                         class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="pathLossExponent"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Path Loss Exponent</label>
+                    <input type="number" id="pathLossExponent" value="4"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="referenceDistance"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Reference Distance</label>
+                    <div class="flex gap-2">
+                        <input type="number" id="referenceDistance" value="1"
+                            class="input-glow flex-1 px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                        <select id="UnitreferenceDistance"
+                            class="input-glow px-4 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                            <option value="0">m</option>
+                            <option value="3">km</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <label for="TotalArea" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Total
+                        Area</label>
+                    <div class="flex gap-2">
+                        <input type="number" id="TotalArea" value="100"
+                            class="input-glow flex-1 px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                        <select id="UnitTotalArea"
+                            class="input-glow px-4 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                            <option value="0">m²</option>
+                            <option value="6" selected>km²</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <label for="SIR" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">SIR</label>
+                    <div class="flex gap-2">
+                        <input type="number" id="SIR" value="18"
+                            class="input-glow flex-1 px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                        <select id="UnitSIR"
+                            class="input-glow px-4 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                            <option value="0" selected>dB</option>
+                            <option value="1">Linear</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <label for="prSen" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Receiver
+                        Sensitivity</label>
+                    <div class="flex gap-2">
+                        <input type="number" id="prSen" value="-104"
+                            class="input-glow flex-1 px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                        <select id="UnitprSen"
+                            class="input-glow px-4 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                            <option value="0" selected>dBm</option>
+                            <option value="1">W</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <label for="pd0" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Transmitted
+                        Power (dBm)</label>
+                    <div class="flex gap-2">
+                        <input type="number" id="pd0" value="20"
+                            class="input-glow flex-1 px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                        <select id="Unitpd0"
+                            class="input-glow px-4 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                            <option value="0" selected>dBm</option>
+                            <option value="1">W</option>
+                        </select>
+                    </div>
                 </div>
             </div>
             <button
