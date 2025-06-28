@@ -33,13 +33,15 @@ A comprehensive web-based calculator suite for wireless communication systems an
 - Fading margin analysis
 - Coverage area predictions
 
-### 🏢 **Cellular System Design**
+### 🏢 **Cellular System Analysis**
 
-- Subscriber capacity planning
-- Traffic load analysis (Erlang calculations)
-- Cell radius optimization
-- Frequency reuse planning
-- Channel allocation strategies
+- Advanced cellular network design and capacity planning
+- Traffic load analysis with Erlang-B blocking probability calculations
+- Coverage area optimization based on power budget analysis
+- Maximum distance and cell size calculations
+- Cluster size determination for frequency reuse planning
+- Grade of Service (GoS) performance evaluation
+- System efficiency and carrier requirement analysis
 
 ### 🤖 **AI-Powered Analysis**
 
@@ -50,15 +52,7 @@ A comprehensive web-based calculator suite for wireless communication systems an
 
 ## 🚀 Live Demo
 
-Visit the live application: [Wireless Networks Calculator](https://supermoathx7.github.io/Wireless/)
-
-## 📸 Screenshots
-
-![Main Interface](assets/imgs/screenshot-main.png)
-_Main calculator interface with tabbed navigation_
-
-![Results with AI Analysis](assets/imgs/screenshot-ai.png)
-_Real-time calculations with AI-powered explanations_
+Visit the live application: [Wireless Networks Calculator](https://supermoathx7.github.io/AI-Powered-Calculator-for-Wireless-Networks/)
 
 ## 🛠️ Technologies Used
 
@@ -154,12 +148,13 @@ TX Power: 30 dBm, Path Loss: 110 dB, RX Sensitivity: -85 dBm
 Result: Link margin, coverage radius, reliability metrics
 ```
 
-#### Cellular Design
+#### Cellular System Analysis
 
 ```javascript
-// Capacity planning
-Subscribers: 500, Traffic: 0.02 Erlang, Reuse Factor: 7
-Result: Required channels, blocking probability, capacity
+// Advanced network planning example
+Time per Carrier: 180 seconds, Number of Users: 1000
+Average Calls per Day: 8, Base Station Power: 10 watts
+Result: Maximum distance, cell size, traffic load, minimum carriers required
 ```
 
 ## 🧮 Mathematical Models
@@ -182,11 +177,14 @@ Result: Required channels, blocking probability, capacity
 - **Link Margin**: LM = Pr - Sensitivity (dB)
 - **Path Loss**: Various models (Free space, Hata, Cost-231)
 
-### Cellular System Design
+### Cellular System Analysis
 
-- **Erlang B Formula**: For blocking probability calculations
-- **Cell Capacity**: C = N/K where N = total channels, K = reuse factor
-- **Coverage Area**: Based on propagation models and antenna patterns
+- **Maximum Distance Calculation**: d_max = √(P_base / (P_carrier × 10^(α×PL/10)))
+- **Cell Size Estimation**: A_cell = π × d_max²
+- **Traffic Load Analysis**: λ = (N_users × avg_calls_per_day × time_per_carrier) / (24 × 3600)
+- **Erlang-B Formula**: For blocking probability and carrier requirements
+- **Grade of Service**: GoS performance evaluation and optimization
+- **System Efficiency**: Overall network capacity and resource utilization
 
 ## 🤝 Contributing
 
@@ -246,40 +244,20 @@ We welcome contributions from the community! Here's how you can help:
 **Academic Year**: 4th Year, 2nd Semester, 2025  
 **Course**: Wireless Communications Systems
 
-## 📚 Educational Resources
-
-### Learning Materials
-
-- [Wireless Communication Fundamentals](docs/wireless-fundamentals.md)
-- [OFDM System Design Guide](docs/ofdm-guide.md)
-- [Link Budget Analysis Tutorial](docs/link-budget-tutorial.md)
-- [Cellular Network Planning](docs/cellular-planning.md)
-
-### Reference Papers
-
-- Goldsmith, A. "Wireless Communications" - Cambridge University Press
-- Rappaport, T. S. "Wireless Communications: Principles and Practice"
-- Sklar, B. "Digital Communications: Fundamentals and Applications"
-
 ## 🔮 Future Enhancements
 
 ### Planned Features
 
 - [ ] **5G Calculator**: mmWave and sub-6GHz analysis
 - [ ] **MIMO Calculator**: Multiple antenna system analysis
-- [ ] **Interference Analysis**: Co-channel and adjacent channel
-- [ ] **Propagation Models**: Advanced path loss models
-- [ ] **Export Features**: PDF reports and data export
+- [ ] **Interference Analysis**: Co-channel and adjacent channel interference
+- [ ] **Advanced Propagation Models**: Hata, Cost-231, and other path loss models
+- [ ] **Network Optimization**: AI-powered cellular network optimization
+- [ ] **Export Features**: PDF reports and data export functionality
 - [ ] **Mobile App**: React Native mobile version
-- [ ] **Database Integration**: Save and compare calculations
-- [ ] **Advanced AI**: Machine learning optimizations
-
-### Technology Roadmap
-
-- **Phase 1**: Additional calculator modules
-- **Phase 2**: Advanced AI integration
-- **Phase 3**: Mobile application
-- **Phase 4**: Cloud-based collaboration
+- [ ] **Database Integration**: Save and compare calculation scenarios
+- [ ] **Advanced AI**: Machine learning-based system recommendations
+- [ ] **Real-time Monitoring**: Live network performance analysis
 
 ## 📄 License
 
@@ -300,15 +278,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - 📧 **Email**: [zezoamer2018@gmail.com](mailto:zezoamer2018@gmail.com)
 - 💬 **GitHub Issues**: [Create an issue](https://github.com/SuperMoathx7/Wireless/issues)
 - 📱 **LinkedIn**: Connect with the development team
-
-### Reporting Issues
-
-Please include the following information when reporting bugs:
-
-- Browser and version
-- Input parameters used
-- Expected vs actual results
-- Screenshots (if applicable)
 
 ---
 
