@@ -218,45 +218,58 @@
                     <p class="text-gray-600">Optimize your OFDM system parameters and performance</p>
                 </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
                 <div class="space-y-3">
-                    <label for="subcarriers"
-                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Number of
-                        Subcarriers</label>
-                    <input type="number" id="subcarriers" value="64"
+                    <label for="modulation"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Modulation</label>
+                    <select id="modulation"
                         class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
-                </div>
-                <div class="space-y-3">
-                    <label for="cyclic-prefix"
-                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Cyclic Prefix
-                        Ratio</label>
-                    <input type="number" id="cyclic-prefix" value="0.25" step="0.01"
-                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
-                </div>
-                <div class="space-y-3">
-                    <label for="symbol-rate"
-                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Symbol Rate
-                        (kSymbols/sec)</label>
-                    <input type="number" id="symbol-rate" value="250"
-                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
-                </div>
-                <div class="space-y-3">
-                    <label for="ofdm-modulation"
-                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Modulation per
-                        Subcarrier</label>
-                    <select id="ofdm-modulation"
-                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
-                        <option>BPSK</option>
-                        <option>QPSK</option>
-                        <option>16-QAM</option>
-                        <option>64-QAM</option>
+                        <option value="BPSK">BPSK</option>
+                        <option value="QPSK" selected>QPSK</option>
+                        <option value="16-QAM">16-QAM</option>
+                        <option value="64-QAM">64-QAM</option>
                     </select>
                 </div>
                 <div class="space-y-3">
-                    <label for="guard-interval"
-                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Guard Interval
-                        (μs)</label>
-                    <input type="number" id="guard-interval" value="0.8"
+                    <label for="total-bandwidth"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Total Bandwidth (kHz)</label>
+                    <input type="number" id="total-bandwidth" value="20000"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="bandwidth-per-rb"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Bandwidth for each Resource Block (kHz)</label>
+                    <input type="number" id="bandwidth-per-rb" value="180"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="time-for-slot"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Time for Slot (ms)</label>
+                    <input type="number" id="time-for-slot" value="0.5" step="0.001"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="time-for-symbol"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Time for Symbol (ms)</label>
+                    <input type="number" id="time-for-symbol" value="0.0714" step="0.0001"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="num-ofdm-symbols"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide"># of OFDM Symbols</label>
+                    <input type="number" id="num-ofdm-symbols" value="14"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="subcarrier-spacing"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide">Subcarrier Spacing (kHz)</label>
+                    <input type="number" id="subcarrier-spacing" value="15"
+                        class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
+                </div>
+                <div class="space-y-3">
+                    <label for="num-parallel-rbs"
+                        class="block text-sm font-bold text-gray-700 uppercase tracking-wide"># of Parallel RBs</label>
+                    <input type="number" id="num-parallel-rbs" value="1"
                         class="input-glow w-full px-6 py-4 border-2 border-purple-soft rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-medium focus:border-transparent transition-all duration-300 bg-white shadow-md">
                 </div>
             </div>

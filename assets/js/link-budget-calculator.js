@@ -117,47 +117,47 @@ class LinkBudgetCalculator {
     setTimeout(() => {
       const resultHTML = `
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          <div class="bg-gradient-to-r from-blue-100 to-blue-200 p-4 rounded-xl">
-            <div class="text-sm text-blue-700 font-semibold uppercase tracking-wide mb-2">AP Transmitted Power</div>
-            <div class="text-xl font-bold text-blue-700">${results.transmittedPowerAp.toFixed(
+          <div class="bg-gradient-to-r from-purple-100 to-purple-200 p-4 rounded-xl">
+            <div class="text-sm text-purple-700 font-semibold uppercase tracking-wide mb-2">AP Transmitted Power</div>
+            <div class="text-xl font-bold text-purple-700">${results.transmittedPowerAp.toFixed(
               2
             )} dBm</div>
           </div>
-                    <div class="bg-gradient-to-r from-indigo-100 to-indigo-200 p-4 rounded-xl">
-            <div class="text-sm text-indigo-700 font-semibold uppercase tracking-wide mb-2">AP Received Power</div>
-            <div class="text-xl font-bold text-indigo-700">${results.receivedSignalStrengthAp.toFixed(
+          <div class="bg-gradient-to-r from-violet-100 to-violet-200 p-4 rounded-xl">
+            <div class="text-sm text-violet-700 font-semibold uppercase tracking-wide mb-2">AP Received Power</div>
+            <div class="text-xl font-bold text-violet-700">${results.receivedSignalStrengthAp.toFixed(
               2
             )} dBm</div>
           </div>
-                    <div class="bg-gradient-to-r from-purple-100 to-purple-200 p-4 rounded-xl">
+          <div class="bg-gradient-to-r from-purple-100 to-purple-200 p-4 rounded-xl">
             <div class="text-sm text-purple-700 font-semibold uppercase tracking-wide mb-2">Client Transmitted Power</div>
             <div class="text-xl font-bold text-purple-700">${results.transmittedPowerClient.toFixed(
               2
             )} dBm</div>
           </div>
-          <div class="bg-gradient-to-r from-green-100 to-green-200 p-4 rounded-xl">
-            <div class="text-sm text-green-700 font-semibold uppercase tracking-wide mb-2">Client Received Power</div>
-            <div class="text-xl font-bold text-green-700">${results.receivedSignalStrengthClient.toFixed(
+          <div class="bg-gradient-to-r from-violet-100 to-violet-200 p-4 rounded-xl">
+            <div class="text-sm text-violet-700 font-semibold uppercase tracking-wide mb-2">Client Received Power</div>
+            <div class="text-xl font-bold text-violet-700">${results.receivedSignalStrengthClient.toFixed(
               2
             )} dBm</div>
           </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <div class="bg-gradient-to-r from-red-100 to-red-200 p-4 rounded-xl">
-            <div class="text-sm text-red-700 font-semibold uppercase tracking-wide mb-2">Free Space Path Loss</div>
-            <div class="text-xl font-bold text-red-700">${results.freeSpaceLoss.toFixed(
+          <div class="bg-gradient-to-r from-indigo-100 to-indigo-200 p-4 rounded-xl">
+            <div class="text-sm text-indigo-700 font-semibold uppercase tracking-wide mb-2">Free Space Path Loss</div>
+            <div class="text-xl font-bold text-indigo-700">${results.freeSpaceLoss.toFixed(
               2
             )} dB</div>
           </div>
-          <div class="bg-gradient-to-r from-orange-100 to-orange-200 p-4 rounded-xl">
-            <div class="text-sm text-orange-700 font-semibold uppercase tracking-wide mb-2">AP to Client Margin</div>
-            <div class="text-xl font-bold text-orange-700">${results.linkMarginApToClient.toFixed(
+          <div class="bg-gradient-to-r from-purple-100 to-purple-200 p-4 rounded-xl">
+            <div class="text-sm text-purple-700 font-semibold uppercase tracking-wide mb-2">AP to Client Margin</div>
+            <div class="text-xl font-bold text-purple-700">${results.linkMarginApToClient.toFixed(
               2
             )} dB</div>
           </div>
-          <div class="bg-gradient-to-r from-yellow-100 to-yellow-200 p-4 rounded-xl">
-            <div class="text-sm text-yellow-700 font-semibold uppercase tracking-wide mb-2">Client to AP Margin</div>
-            <div class="text-xl font-bold text-yellow-700">${results.linkMarginClientToAp.toFixed(
+          <div class="bg-gradient-to-r from-violet-100 to-violet-200 p-4 rounded-xl">
+            <div class="text-sm text-violet-700 font-semibold uppercase tracking-wide mb-2">Client to AP Margin</div>
+            <div class="text-xl font-bold text-violet-700">${results.linkMarginClientToAp.toFixed(
               2
             )} dB</div>
           </div>
