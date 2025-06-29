@@ -15,7 +15,7 @@ class WirelessCalculator {
       rs: this.getInputValue("rs-compression"),
       rc: this.getInputValue("rc-encoding"),
       overhead: this.getInputValue("overhead-bits", false),
-      timeOneSegment: this.getInputValue("time-one-segment", false) / 1000,//new
+      timeOneSegment: this.getInputValue("time-one-segment") / 1000,//new
     };
   }
 
@@ -39,12 +39,113 @@ class WirelessCalculator {
       throw new Error(`Invalid number in: ${id.replace(/-/g, " ")}`);
     }
 
+    // Input validation based on field type
+    this.validateInput(id, parsed);
+
     return parsed;
+  }
+
+  // Input validation function
+  validateInput(id, value) {
+    switch (id) {
+      case "bandwidth":
+        if (value <= 0) {
+          throw new Error("Bandwidth must be positive (greater than 0 Hz)");
+        }
+        if (value > 5000000000) { // 5 GHz limit
+          throw new Error("Bandwidth too large (maximum 5 GHz)");
+        }
+        break;
+
+      case "cutoff-frequency":
+        if (value <= 0) {
+          throw new Error("Cutoff frequency must be positive (greater than 0 Hz)");
+        }
+        if (value > 5000000000) { // 5 GHz limit
+          throw new Error("Cutoff frequency too large (maximum 5 GHz)");
+        }
+        break;
+
+      case "bit-quantizer":
+        if (value <= 0) {
+          throw new Error("Number of bit quantizer must be positive");
+        }
+        if (!Number.isInteger(value)) {
+          throw new Error("Number of bit quantizer must be a whole number");
+        }
+        break;
+
+      case "rs-compression":
+        if (value <= 0) {
+          throw new Error("Compression rate (Rs) must be positive");
+        }
+        if (value > 1) {
+          throw new Error("Compression rate (Rs) cannot exceed 1 (100%)");
+        }
+        break;
+
+      case "rc-encoding":
+        if (value <= 0) {
+          throw new Error("Channel encoder rate (Rc) must be positive");
+        }
+        if (value > 1) {
+          throw new Error("Channel encoder rate (Rc) cannot exceed 1 (100%)");
+        }
+        break;
+
+      case "overhead-bits":
+        if (value < 0) {
+          throw new Error("Number of overhead bits cannot be negative");
+        }
+        if (value > 1000) {
+          throw new Error("Number of overhead bits too large (maximum 1000)");
+        }
+        if (!Number.isInteger(value)) {
+          throw new Error("Number of overhead bits must be a whole number");
+        }
+        break;
+
+      case "time-one-segment":
+        if (value <= 0) {
+          throw new Error("Time for one segment must be positive (greater than 0 ms)");
+        }
+        if (value > 10000) { // 10 seconds limit
+          throw new Error("Time for one segment too large (maximum 10000 ms)");
+        }
+        break;
+    }
+  }
+
+  // Cross-field validation function
+  validateCrossFields(inputs) {
+    const { bandwidth, cutoffFreq, bitQuantizer, rs, rc, overhead, timeOneSegment } = inputs;
+
+
+    // Check if compression and encoding rates make sense together
+    if (rs < 0.1 && rc < 0.5) {
+      throw new Error("Very low compression and encoding rates may result in impractical system performance");
+    }
+
+    // Check for realistic bit quantizer values
+    if (bitQuantizer > 16) {
+      console.warn("Warning: High bit quantizer values (>16) may be impractical for most systems");
+    }
+
+    // Check overhead relative to time segment
+    const overheadRate = overhead / timeOneSegment;
+
+    // Validate that time segment allows reasonable processing
+    if (timeOneSegment < 0.1) {
+      console.warn("Warning: Very short time segments (<0.1ms) may be difficult to implement");
+    }
   }
 
   // Perform wireless system calculations
   calculate(inputs) {
     const { bandwidth, cutoffFreq, bitQuantizer, rs, rc, overhead, timeOneSegment } = inputs;
+
+    // Cross-field validation
+    this.validateCrossFields(inputs);
 
     // Use minimum of bandwidth and cutoff frequency for sampling
     const effectiveFreq = Math.min(cutoffFreq, bandwidth);

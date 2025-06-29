@@ -8,7 +8,7 @@ class OFDMCalculator {
 
   // Get OFDM system inputs with validation
   getInputs() {
-    return {
+    const inputs = {
       modulation: document.getElementById("modulation").value,
       totalBandwidth: this.getInputValue("total-bandwidth") * 1000, // Convert kHz to Hz
       bandwidthPerRB: this.getInputValue("bandwidth-per-rb") * 1000, // Convert kHz to Hz
@@ -18,6 +18,94 @@ class OFDMCalculator {
       subcarrierSpacing: this.getInputValue("subcarrier-spacing") * 1000, // Convert kHz to Hz
       numberOfParallelRBs: this.getInputValue("num-parallel-rbs", false), // Integer value
     };
+
+    this.validateInputs(inputs);
+    return inputs;
+  }
+
+  // Comprehensive input validation
+  validateInputs(inputs) {
+    const errors = [];
+    const warnings = [];
+
+    // Validate Total Bandwidth
+    if (inputs.totalBandwidth <= 0) {
+      errors.push("Total bandwidth must be positive");
+    }
+
+    // Validate Bandwidth per RB
+    if (inputs.bandwidthPerRB <= 0) {
+      errors.push("Bandwidth per RB must be positive");
+    } 
+
+    if (inputs.bandwidthPerRB > inputs.totalBandwidth) {
+      errors.push("Bandwidth per RB cannot exceed total bandwidth");
+    }
+
+    // Validate time constraints
+    if (inputs.timeForSlot <= 0) {
+      errors.push("Time for slot must be positive");
+    } else if (inputs.timeForSlot > 1) { // 1 second
+      warnings.push("Time for slot exceeds 1 second - unusually long for OFDM slots");
+    } else if (inputs.timeForSlot < 0.000001) { // 1 microsecond
+      warnings.push("Time for slot is very short (< 1 μs) - may not be practical");
+    }
+
+    if (inputs.timeForSymbol <= 0) {
+      errors.push("Time for symbol must be positive");
+    } else if (inputs.timeForSymbol > 0.1) { // 100 ms
+      warnings.push("Time for symbol exceeds 100 ms - unusually long for OFDM symbols");
+    } else if (inputs.timeForSymbol < 0.000001) { // 1 microsecond
+      warnings.push("Time for symbol is very short (< 1 μs) - may not be practical");
+    }
+
+    // Validate OFDM symbols count
+    if (inputs.numOFDMSymbols <= 0) {
+      errors.push("Number of OFDM symbols must be positive");
+    } else if (!Number.isInteger(inputs.numOFDMSymbols)) {
+      errors.push("Number of OFDM symbols must be an integer");
+    } else if (inputs.numOFDMSymbols > 1000) {
+      errors.push("Number of OFDM symbols exceeds 1000 - very high symbol count");
+    }
+
+    // Validate subcarrier spacing
+    if (inputs.subcarrierSpacing <= 0) {
+      errors.push("Subcarrier spacing must be positive");
+    } else if (inputs.subcarrierSpacing > 1000000) { // 1 MHz
+      warnings.push("Subcarrier spacing exceeds 1 MHz - unusually wide spacing");
+    } else if (inputs.subcarrierSpacing < 100) { // 100 Hz
+      warnings.push("Subcarrier spacing is very narrow (< 100 Hz) - may cause interference");
+    }
+
+    // Validate parallel RBs
+    if (inputs.numberOfParallelRBs <= 0) {
+      errors.push("Number of parallel RBs must be positive");
+    } else if (!Number.isInteger(inputs.numberOfParallelRBs)) {
+      errors.push("Number of parallel RBs must be an integer");
+    } else if (inputs.numberOfParallelRBs > 1000) {
+      warnings.push("Number of parallel RBs exceeds 1000 - very high for parallel processing");
+    }
+
+    // Cross-field validation
+    if (inputs.totalBandwidth < inputs.bandwidthPerRB) {
+      errors.push("Total bandwidth cannot be less than bandwidth per RB");
+    }
+
+    if (inputs.timeForSymbol > inputs.timeForSlot) {
+      errors.push("Time for symbol cannot exceed time for slot");
+    }
+
+    const calculatedRBs = inputs.totalBandwidth / inputs.bandwidthPerRB;
+ 
+
+    // Display errors and warnings
+    if (errors.length > 0) {
+      throw new Error(errors.join("; "));
+    }
+
+    if (warnings.length > 0) {
+      console.warn("OFDM Calculator Warnings:", warnings.join("; "));
+    }
   }
 
   // Utility function to get input values with validation

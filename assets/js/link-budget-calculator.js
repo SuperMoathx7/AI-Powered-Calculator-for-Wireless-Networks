@@ -8,7 +8,7 @@ class LinkBudgetCalculator {
 
   // Get link budget inputs with validation
   getInputs() {
-    return {
+    const inputs = {
       apTxPower: this.getInputValue("access-point-transmit-power"),
       apAntennaGain: this.getInputValue("access-point-antenna-gain"),
       apRxSensitivity: this.getInputValue("access-point-receive-sensitivity"),
@@ -19,6 +19,133 @@ class LinkBudgetCalculator {
       distanceKm: this.getInputValue("distance"),
       frequencyGhz: this.getInputValue("frequency"),
     };
+
+    this.validateInputs(inputs);
+    return inputs;
+  }
+
+  // Comprehensive input validation
+  validateInputs(inputs) {
+    const errors = [];
+    const warnings = [];
+
+    // Validate transmit power levels (typical range: -30 to +50 dBm)
+    if (inputs.apTxPower < -50 || inputs.apTxPower > 100) {
+      if (inputs.apTxPower < -50) {
+        errors.push("AP transmit power is too low (< -50 dBm)");
+      } else {
+        errors.push("AP transmit power is too high (> 100 dBm) - exceeds regulatory limits");
+      }
+    } else if (inputs.apTxPower > 50) {
+      warnings.push("AP transmit power is very high (> 50 dBm) - check regulatory compliance");
+    } else if (inputs.apTxPower < 0) {
+      warnings.push("AP transmit power is below 0 dBm - may result in poor coverage");
+    }
+
+    if (inputs.clientTxPower < -50 || inputs.clientTxPower > 100) {
+      if (inputs.clientTxPower < -50) {
+        errors.push("Client transmit power is too low (< -50 dBm)");
+      } else {
+        errors.push("Client transmit power is too high (> 100 dBm) - exceeds regulatory limits");
+      }
+    } else if (inputs.clientTxPower > 30) {
+      warnings.push("Client transmit power is very high (> 30 dBm) - typical mobile devices use < 30 dBm");
+    }
+
+    // Validate antenna gains (typical range: -10 to +30 dBi)
+    if (inputs.apAntennaGain < -20 || inputs.apAntennaGain > 50) {
+      if (inputs.apAntennaGain < -20) {
+        errors.push("AP antenna gain is unrealistically low (< -20 dBi)");
+      } else {
+        errors.push("AP antenna gain is unrealistically high (> 50 dBi)");
+      }
+    } else if (inputs.apAntennaGain > 30) {
+      warnings.push("AP antenna gain is very high (> 30 dBi) - verify antenna specifications");
+    }
+
+    if (inputs.clientAntennaGain < -20 || inputs.clientAntennaGain > 50) {
+      if (inputs.clientAntennaGain < -20) {
+        errors.push("Client antenna gain is unrealistically low (< -20 dBi)");
+      } else {
+        errors.push("Client antenna gain is unrealistically high (> 50 dBi)");
+      }
+    } else if (inputs.clientAntennaGain > 15) {
+      warnings.push("Client antenna gain is high (> 15 dBi) - typical mobile devices have lower gains");
+    }
+
+    // Validate receiver sensitivity (typical range: -110 to -30 dBm)
+    if (inputs.apRxSensitivity > -10 || inputs.apRxSensitivity < -130) {
+      if (inputs.apRxSensitivity > -10) {
+        errors.push("AP receiver sensitivity is too high (> -10 dBm) - receivers need negative sensitivity");
+      } else {
+        errors.push("AP receiver sensitivity is unrealistically low (< -130 dBm)");
+      }
+    } else if (inputs.apRxSensitivity > -50) {
+      warnings.push("AP receiver sensitivity is poor (> -50 dBm) - modern receivers typically have better sensitivity");
+    }
+
+    if (inputs.clientRxSensitivity > -10 || inputs.clientRxSensitivity < -130) {
+      if (inputs.clientRxSensitivity > -10) {
+        errors.push("Client receiver sensitivity is too high (> -10 dBm) - receivers need negative sensitivity");
+      } else {
+        errors.push("Client receiver sensitivity is unrealistically low (< -130 dBm)");
+      }
+    }
+
+    // Validate cable loss (typical range: 0 to 10 dB per side)
+    if (inputs.cableLossEachSide < 0) {
+      errors.push("Cable loss cannot be negative");
+    } else if (inputs.cableLossEachSide > 20) {
+      warnings.push("Cable loss is very high (> 20 dB) - check cable specifications and length");
+    }
+
+    // Validate distance (must be positive, practical range: 0.001 to 1000 km)
+    if (inputs.distanceKm <= 0) {
+      errors.push("Distance must be positive");
+    } else if (inputs.distanceKm > 1000) {
+      warnings.push("Distance exceeds 1000 km - beyond typical wireless communication range");
+    } else if (inputs.distanceKm < 0.001) {
+      warnings.push("Distance is very short (< 1 m) - near field effects may apply");
+    }
+
+    // Validate frequency (typical wireless range: 0.1 to 100 GHz)
+    if (inputs.frequencyGhz <= 0) {
+      errors.push("Frequency must be positive");
+    } else if (inputs.frequencyGhz > 100) {
+      warnings.push("Frequency exceeds 100 GHz - atmospheric absorption becomes significant");
+    } else if (inputs.frequencyGhz < 0.1) {
+      warnings.push("Frequency is very low (< 100 MHz) - not typical for modern wireless systems");
+    }
+
+    // Cross-field validation
+    const totalTxPowerAP = inputs.apTxPower + inputs.apAntennaGain;
+    const totalTxPowerClient = inputs.clientTxPower + inputs.clientAntennaGain;
+    
+    if (totalTxPowerAP > 80) {
+      warnings.push(`Total AP EIRP (${totalTxPowerAP.toFixed(1)} dBm) is very high - check regulatory limits`);
+    }
+    
+    if (totalTxPowerClient > 60) {
+      warnings.push(`Total client EIRP (${totalTxPowerClient.toFixed(1)} dBm) is very high for mobile devices`);
+    }
+
+    // Check for reasonable link margins
+    const estimatedFSPL = 20 * Math.log10(inputs.distanceKm * 1000) + 20 * Math.log10(inputs.frequencyGhz * 1e9) - 147.56;
+    const estimatedMarginAP = totalTxPowerAP - inputs.cableLossEachSide * 2 - estimatedFSPL + inputs.clientAntennaGain - inputs.clientRxSensitivity;
+    const estimatedMarginClient = totalTxPowerClient - inputs.cableLossEachSide * 2 - estimatedFSPL + inputs.apAntennaGain - inputs.apRxSensitivity;
+
+    if (estimatedMarginAP < -20 || estimatedMarginClient < -20) {
+      warnings.push("Estimated link margins are very poor - link may not be reliable");
+    }
+
+    // Display errors and warnings
+    if (errors.length > 0) {
+      throw new Error(errors.join("; "));
+    }
+
+    if (warnings.length > 0) {
+      console.warn("Link Budget Calculator Warnings:", warnings.join("; "));
+    }
   }
 
   // Utility function to get input values with validation

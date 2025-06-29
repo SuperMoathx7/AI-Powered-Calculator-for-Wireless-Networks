@@ -768,7 +768,7 @@ class CellularCalculator {
 
   // Get cellular system inputs with validation
   getInputs() {
-    return {
+    const inputs = {
       timePerCarrier: this.getInputValue("timePerCarrier", false),
       NumberOfUsers: this.getInputValue("NumberOfUsers", false),
       AveargeCallPerDay: this.getInputValue("AveargeCallPerDay"),
@@ -797,6 +797,142 @@ class CellularCalculator {
         parseInt(document.getElementById("Unitpd0").value)
       ),
     };
+
+    this.validateInputs(inputs);
+    return inputs;
+  }
+
+  // Comprehensive input validation for cellular systems
+  validateInputs(inputs) {
+    const errors = [];
+    const warnings = [];
+
+    // Validate time per carrier (typical range: 1 to 3600 seconds)
+    if (inputs.timePerCarrier <= 0) {
+      errors.push("Time per carrier must be positive");
+    } else if (!Number.isInteger(inputs.timePerCarrier)) {
+      errors.push("Time per carrier must be an integer");
+    } else if (inputs.timePerCarrier > 3600) {
+      warnings.push("Time per carrier exceeds 1 hour - unusually long for cellular systems");
+    } else if (inputs.timePerCarrier < 1) {
+      warnings.push("Time per carrier is very short (< 1 second)");
+    }
+
+    // Validate number of users (typical range: 1 to 100,000)
+    if (inputs.NumberOfUsers <= 0) {
+      errors.push("Number of users must be positive");
+    } else if (!Number.isInteger(inputs.NumberOfUsers)) {
+      errors.push("Number of users must be an integer");
+    } else if (inputs.NumberOfUsers > 1000000) {
+      warnings.push("Number of users exceeds 1 million - very large cellular system");
+    }
+
+    // Validate average calls per day (typical range: 0.1 to 100)
+    if (inputs.AveargeCallPerDay <= 0) {
+      errors.push("Average calls per day must be positive");
+    } else if (inputs.AveargeCallPerDay > 1000) {
+      warnings.push("Average calls per day exceeds 1000 - extremely high usage");
+    } else if (inputs.AveargeCallPerDay < 0.1) {
+      warnings.push("Average calls per day is very low (< 0.1) - unusually low usage");
+    }
+
+    // Validate average call duration (typical range: 10 seconds to 1 hour)
+    if (inputs.AveargeDuraion <= 0) {
+      errors.push("Average call duration must be positive");
+    } else if (inputs.AveargeDuraion > 3600) {
+      warnings.push("Average call duration exceeds 1 hour - unusually long calls");
+    } else if (inputs.AveargeDuraion < 5) {
+      warnings.push("Average call duration is very short (< 5 seconds)");
+    }
+
+    // Validate call drop probability (must be between 0 and 1)
+    if (inputs.callDropPropapility < 0 || inputs.callDropPropapility > 1) {
+      errors.push("Call drop probability must be between 0 and 1");
+    } else if (inputs.callDropPropapility > 0.1) {
+      warnings.push("Call drop probability exceeds 10% - very poor service quality");
+    } else if (inputs.callDropPropapility > 0.05) {
+      warnings.push("Call drop probability exceeds 5% - poor service quality");
+    }
+
+    // Validate path loss exponent (typical range: 2 to 6)
+    if (inputs.pathLossExponent < 1) {
+      errors.push("Path loss exponent must be at least 1 (free space minimum is 2)");
+    } else if (inputs.pathLossExponent > 8) {
+      warnings.push("Path loss exponent exceeds 8 - extremely high path loss environment");
+    } else if (inputs.pathLossExponent < 2) {
+      warnings.push("Path loss exponent is less than 2 - below free space path loss");
+    }
+
+    // Validate reference distance (typical range: 1m to 10km)
+    if (inputs.referenceDistance <= 0) {
+      errors.push("Reference distance must be positive");
+    } else if (inputs.referenceDistance > 100000) { // 100 km
+      warnings.push("Reference distance exceeds 100 km - beyond typical cellular range");
+    } else if (inputs.referenceDistance < 1) {
+      warnings.push("Reference distance is very short (< 1 m) - near field effects may apply");
+    }
+
+    // Validate total area (typical range: 1 km² to 100,000 km²)
+    if (inputs.TotalArea <= 0) {
+      errors.push("Total area must be positive");
+    } else if (inputs.TotalArea > 1000000000000) { // 1 million km²
+      warnings.push("Total area is extremely large (> 1 million km²)");
+    } else if (inputs.TotalArea < 1000) { // 1000 m²
+      warnings.push("Total area is very small (< 1000 m²) - may not justify cellular deployment");
+    }
+
+    // Validate signal-to-interference ratio (typical range: 3 to 30 dB)
+    if (inputs.SIR <= 0) {
+      errors.push("Signal-to-interference ratio must be positive");
+    } else if (inputs.SIR < 1) { // 0 dB
+      warnings.push("SIR is very low (< 0 dB) - poor signal quality expected");
+    } else if (inputs.SIR > 1000) { // 30 dB
+      warnings.push("SIR is very high (> 30 dB) - may be unrealistic in interference-limited systems");
+    }
+
+    // Validate receiver sensitivity (should be negative in dBm, positive in linear scale)
+    if (inputs.prSen <= 0) {
+      warnings.push("Receiver sensitivity appears to be very low - check units and sign");
+    } else if (inputs.prSen > 1) { // Above 0 dBm in linear scale would be very high
+      warnings.push("Receiver sensitivity is very high - verify this is correct");
+    }
+
+    // Validate reference power (should be positive)
+    if (inputs.pd0 <= 0) {
+      errors.push("Reference power (pd0) must be positive");
+    } else if (inputs.pd0 < 0.000001) { // Very small power
+      warnings.push("Reference power is very low - may indicate incorrect units");
+    } else if (inputs.pd0 > 1000) { // Very high power
+      warnings.push("Reference power is very high (> 1000) - check units and regulatory limits");
+    }
+
+    // Cross-field validation
+    const dailyTrafficPerUser = inputs.AveargeCallPerDay * inputs.AveargeDuraion / 86400; // Erlangs
+    if (dailyTrafficPerUser > 1) {
+      warnings.push(`Daily traffic per user (${dailyTrafficPerUser.toFixed(3)} Erlangs) exceeds 1 - very high usage`);
+    }
+
+    const totalTraffic = inputs.NumberOfUsers * dailyTrafficPerUser;
+    if (totalTraffic > 10000) {
+      warnings.push(`Total system traffic (${totalTraffic.toFixed(0)} Erlangs) is very high`);
+    }
+
+    // Coverage vs capacity checks
+    const areaPerUser = inputs.TotalArea / inputs.NumberOfUsers;
+    if (areaPerUser > 100000000) { // 100 km² per user
+      warnings.push("Area per user is very large - system may be coverage-limited rather than capacity-limited");
+    } else if (areaPerUser < 1000) { // 1000 m² per user
+      warnings.push("Area per user is very small - system is likely capacity-limited");
+    }
+
+    // Display errors and warnings
+    if (errors.length > 0) {
+      throw new Error(errors.join("; "));
+    }
+
+    if (warnings.length > 0) {
+      console.warn("Cellular Calculator Warnings:", warnings.join("; "));
+    }
   }
 
   // Convert units (dB to linear or vice versa) - exact copy from original
