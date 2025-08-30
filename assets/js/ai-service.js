@@ -4,7 +4,7 @@
 class AIService {
   constructor() {
     this.API_KEY =
-      "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";
+      "Put API key here";
     this.API_URL = "https://openrouter.ai/api/v1/chat/completions";
   }
 
